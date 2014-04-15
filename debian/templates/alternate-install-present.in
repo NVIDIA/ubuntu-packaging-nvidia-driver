@@ -1,0 +1,9 @@
+The package that is already installed is named #DRIVERNAME#.
+
+You can upgrade the driver by running:
+`apt-get install #DRIVERNAME# nvidia-modprobe nvidia-settings`
+
+You can remove #DRIVERNAME#, and all related packages, by running:
+`apt-get remove --purge #DRIVERNAME# nvidia-modprobe nvidia-settings`
+
+This package is maintained by NVIDIA (cudatools@nvidia.com).
