@@ -23,6 +23,7 @@ PKG_flavour          := $(shell dpkg-parsechangelog | sed -n 's/^Source: //p' | 
 PKG_driver           := nvidia-$(PKG_flavour)
 PKG_driver_dev       := $(PKG_driver)-dev
 PKG_driver_uvm       := $(PKG_driver)-uvm
+PKG_driver_diagnostic:= $(PKG_driver)-diagnostic
 PKG_version          := $(shell dpkg-parsechangelog | awk -F' ' '/^Version:/ {print $$2}' | awk -F- '{print $$1}')
 PKG_version          := $(shell echo $(PKG_version) | sed s/.*\.really\.//g)
 PKG_source           := $(shell dpkg-parsechangelog | sed -n 's/^Source: //p')
@@ -30,7 +31,6 @@ PKG_module           := $(shell echo "$(PKG_driver)" | sed s/\-/_/g)
 PKG_libcuda1         := libcuda1-$(PKG_flavour)
 PKG_libopencl1       := nvidia-libopencl1-$(PKG_flavour)
 PKG_opencl_icd       := nvidia-opencl-icd-$(PKG_flavour)
-
 
 # Priority of the alternative
 alt_priority         := 8604
@@ -40,31 +40,43 @@ pm_alt_priority      := 8603
 dirname_x86          ?= NVIDIA-Linux-x86-$(PKG_version)
 dirname_x86_64       ?= NVIDIA-Linux-x86_64-$(PKG_version)-no-compat32
 dirname_armhf        ?= NVIDIA-Linux-armv7l-gnueabihf-$(PKG_version)
+dirname_ppc          ?= NVIDIA-Linux-ppc64le-$(PKG_version)
 filename_x86         := $(dirname_x86).run
 filename_x86_64      := $(dirname_x86_64).run
 filename_armhf       := $(dirname_armhf).run
+filename_ppc         := $(dirname_ppc).run
 url_x86              := http://us.download.nvidia.com/XFree86/Linux-x86/$(PKG_version)/$(filename_x86)
 url_x86_64           := http://us.download.nvidia.com/XFree86/Linux-x86_64/$(PKG_version)/$(filename_x86_64)
 url_armhf            := http://us.download.nvidia.com/XFree86/Linux-x86-ARM/$(PKG_version)/$(filename_armhf)
 
-ifeq ($(DEB_BUILD_ARCH),amd64)
+ifeq ($(DEB_HOST_ARCH),amd64)
 filename             := $(filename_x86_64)
 dirname              := $(dirname_x86_64)
 url                  := $(url_x86_64)
 web_arch             := amd64
 else
-ifeq ($(DEB_BUILD_ARCH),armhf)
+ifeq ($(DEB_HOST_ARCH),armhf)
 filename             := $(filename_armhf)
 dirname              := $(dirname_armhf)
 url                  := $(url_armhf)
 web_arch             := 32bit-arm
 arm_excluded         := \#
 else
+ifeq ($(DEB_BUILD_ARCH),ppc64el)
+filename             := $(filename_ppc)
+dirname              := $(dirname_ppc)
+ppc_excluded         := \#
+else
 filename             := $(filename_x86)
 dirname              := $(dirname_x86)
 url                  := $(url_x86)
 web_arch             := ia32
 endif
+endif
+endif
+
+ifneq ($(DIAGNOSTIC),1)
+diagnostic           := \#
 endif
 
 release_notes        := http://www.nvidia.com/object/linux-display-$(web_arch)-$(PKG_version)-driver.html
@@ -82,7 +94,9 @@ sysconfdir           := /etc
 PKG_libdir           := $(libdir)/$(PKG_driver)
 PKG_libdir32         := $(libdir32)/$(PKG_driver)
 mesa_libdir          := $(libdir)/$(DEB_HOST_MULTIARCH)/mesa
+mesa_egl_libdir      := $(libdir)/$(DEB_HOST_MULTIARCH)/mesa-egl
 mesa_libdir_other    := $(libdir)/$(OTHER_ARCH)/mesa
+mesa_egl_libdir_other := $(libdir)/$(OTHER_ARCH)/mesa-egl
 xorg_libdir          := $(libdir)/xorg
 xorg_extra_path      := $(libdir)/$(DEB_HOST_MULTIARCH)/xorg
 xorg_extra_modules   := $(xorg_extra_path)/extra-modules
@@ -114,6 +128,16 @@ tlsdir               := $(libdir)/tls
 vdpaudir32           := $(libdir32)/vdpau
 tlsdir32             := $(libdir32)/tls
 grub_blacklistdir    := /usr/share/grub-gfxpayload-lists/blacklist
+
+ifeq ($(DEB_HOST_ARCH),amd64)
+DKMS_disabled_modules :=
+else
+ifeq ($(DEB_BUILD_ARCH),ppc64el)
+DKMS_disabled_modules :=
+else
+DKMS_disabled_modules := nvidia-uvm
+endif
+endif
 
 # This is a hack to make sure that
 # the blacklist file is available
@@ -147,9 +171,14 @@ blacklist nvidia-173-updates
 blacklist nvidia-96-updates
 blacklist $(opposite_flavour)
 alias nvidia $(PKG_module)
-alias nvidia-uvm $(PKG_module)-uvm
+alias nvidia-uvm $(PKG_module)_uvm
+alias nvidia-modeset $(PKG_module)_modeset
+alias nvidia-drm $(PKG_module)_drm
 alias nouveau off
 alias lbm-nouveau off
+
+options $(PKG_module)_drm modeset=0
+
 endef
 
 define blacklist_hybrid
@@ -228,6 +257,7 @@ regen-from-templates:
 			-e "s|#DRIVERNAME#|$(PKG_driver)|g" \
 			-e "s|#DRIVERDEVNAME#|$(PKG_driver_dev)|g" \
 			-e "s|#DRIVERUVMNAME#|$(PKG_driver_uvm)|g" \
+			-e "s|#DRIVERDIAGNOSTICNAME#|$(PKG_driver_diagnostic)|g" \
 			-e "s|#DRIVERSRCNAME#|$(PKG_source)|g" \
 			-e "s|#MODULENAME#|$(PKG_module)|g" \
 			-e "s|#LIBCUDA1#|$(PKG_libcuda1)|g" \
@@ -250,9 +280,12 @@ regen-from-templates:
 			-e "s|#RELEASENOTES#|$(release_notes)|g" \
 			-e "s|#NVIDIASHARE#|$(nvidia_share)|g" \
 			-e "s|#ARM_EXCLUDED#|$(arm_excluded)|g" \
+			-e "s|#PPC_EXCLUDED#|$(ppc_excluded)|g" \
+			-e "s|#NVEXCLUDEMODULES#|$(DKMS_disabled_modules)|g" \
+			-e "s|#DIAGNOSTIC#|$(diagnostic)|g" \
 			$$i > $$dest;      \
 	done
-ifeq ($(DEB_BUILD_ARCH),amd64)
+ifeq ($(DEB_HOST_ARCH),amd64)
 	# Deal with the links for 32 bit libraries
 
 	# $(PKG_driver)
@@ -280,40 +313,65 @@ ifeq ($(DEB_BUILD_ARCH),amd64)
 	mv -f $(CURDIR)/debian/$(PKG_driver).dirs_new $(CURDIR)/debian/$(PKG_driver).dirs
 endif
 
-override_dh_auto_configure:
-	rm -rf $(dirname_x86) $(dirname_x86_64) $(dirname_armhf)
+ifeq ($(DEB_HOST_ARCH),armhf)
+	# The libraries have not been renamed, as with the
+	# other architectures yet
 
-	# Extract the installers
-	sh $(filename) --extract-only
-
-ifeq ($(DEB_BUILD_ARCH),amd64)
-	sh $(filename_x86) --extract-only
+	# $(PKG_driver)
+	cat $(CURDIR)/debian/$(PKG_driver).links.armhf > \
+	$(CURDIR)/debian/$(PKG_driver).links
 endif
 
-ifneq ($(DEB_BUILD_ARCH),armhf)
+
+override_dh_auto_configure:
+	rm -rf $(dirname_x86) $(dirname_x86_64) $(dirname_armhf) $(dirname_ppc)
+
+	# Extract the installers
+	sh $(filename) --extract-only --target $(dirname)
+
+ifeq ($(DEB_HOST_ARCH),amd64)
+	sh $(filename_x86) --extract-only --target $(dirname_x86)
+endif
+
+ifneq ($(DEB_HOST_ARCH),armhf)
 	# Temporarily rename libnvidia-opencl so that the .install file does
 	# not catch it, as $(PKG_libcuda1) will instead
 	mv $(CURDIR)/$(dirname)/libnvidia-opencl.so.$(PKG_version) \
 	   $(CURDIR)/$(dirname)/_libnvidia-opencl.so.$(PKG_version)
 endif
 
+	# Remove nvidia-settings gtk+ libraries
+	rm -rf $(CURDIR)/$(dirname)/libnvidia-gtk*.so*
+ifeq ($(DEB_HOST_ARCH),amd64)
+	rm -rf $(CURDIR)/$(dirname_x86)/libnvidia-gtk*.so*
+endif
+
+ifneq ($(DEB_HOST_ARCH),armhf)
+	# This is for non-GLVND LibGL libraries
+	# Replace with libGLX_nvidia.so.0 when the transition to GLVND is complete
+	sed 's/__NV_VK_ICD__/libGL.so.1/g'  $(dirname)/nvidia_icd.json.template > \
+		$(dirname)/nvidia_icd.json
+endif
+
 	# Get around Xen checks
-	mv $(dirname)/kernel/nv.c $(dirname)/kernel/nv1.c
-	mv $(dirname)/kernel/nv-linux.h $(dirname)/kernel/nv-linux1.h
-	sed 's/CONFIG_XEN/CONFIG_ALB/g'  $(dirname)/kernel/nv1.c > $(dirname)/kernel/nv.c
-	sed 's/CONFIG_XEN/CONFIG_ALB/g'  $(dirname)/kernel/nv-linux1.h > $(dirname)/kernel/nv-linux.h
-	rm -f $(dirname)/kernel/nv1.c
-	rm -f $(dirname)/kernel/nv-linux1.h
+	mv $(dirname)/kernel/nvidia/nv.c $(dirname)/kernel/nvidia/nv1.c
+	mv $(dirname)/kernel/common/inc/nv-linux.h $(dirname)/kernel/common/inc/nv-linux1.h
+	sed 's/CONFIG_XEN/CONFIG_ALB/g'  $(dirname)/kernel/nvidia/nv1.c > $(dirname)/kernel/nvidia/nv.c
+	sed 's/CONFIG_XEN/CONFIG_ALB/g'  $(dirname)/kernel/common/inc/nv-linux1.h > $(dirname)/kernel/common/inc/nv-linux.h
+	rm -f $(dirname)/kernel/nvidia/nv1.c
+	rm -f $(dirname)/kernel/common/inc/nv-linux1.h
 
 	# kernel module source
 	mkdir -p $(CURDIR)/debian/temp/modules/nvidia-kernel
 	cp -Rf $(CURDIR)/$(dirname)/kernel $(CURDIR)/debian/temp/modules/nvidia-kernel/
-	rm -rf $(CURDIR)/debian/temp/modules/nvidia-kernel/kernel/uvm
 	if [ -e "$(CURDIR)/debian/temp/modules/nvidia-kernel/kernel/Makefile.kbuild" ] ; \
 	then \
 		cp -f $(CURDIR)/debian/temp/modules/nvidia-kernel/kernel/Makefile.kbuild \
 		$(CURDIR)/debian/temp/modules/nvidia-kernel/kernel/Makefile ; \
 	fi;
+
+	# Remove the dkms.conf(s) from upstream
+	find $(CURDIR)/debian/temp/modules/nvidia-kernel/ -name dkms.conf* | xargs rm -f
 
 	mkdir -p $(CURDIR)/debian/dkms_nvidia
 	cp -f $(CURDIR)/debian/dkms_nvidia.conf $(CURDIR)/debian/dkms_nvidia/dkms.conf
@@ -322,14 +380,10 @@ endif
 	# See (LP: #409456)
 	find $(CURDIR)/$(dirname) -name *.so* | xargs -n1 execstack -c
 
-ifeq ($(DEB_BUILD_ARCH),amd64)
+ifeq ($(DEB_HOST_ARCH),amd64)
 	# Disable the stack markings of 32bit binaries on amd64
 	# See (LP: #409456)
 	find $(CURDIR)/$(dirname_x86) -name *.so* | xargs -n1 execstack -c
-
-	# Remove libGLES* for since it's 32 bit only
-	find $(CURDIR)/$(dirname_x86) -name 'libGLES*.so*' | xargs /bin/rm -f
-	find $(CURDIR)/$(dirname_x86) -name 'libnvidia-eglcore*.so*' | xargs /bin/rm -f
 
 	# Temporarily rename libnvidia-opencl
 	mv $(CURDIR)/$(dirname_x86)/libnvidia-opencl.so.$(PKG_version) \
@@ -342,23 +396,31 @@ endif
 	execstack -c $(CURDIR)/$(dirname)/nvidia-smi || true
 	execstack -c $(CURDIR)/$(dirname)/nvidia-persistenced || true
 
-	# Part about $(PKG_driver_uvm)
-	# Kernel module files
-	mkdir -p $(CURDIR)/debian/temp/modules/nvidia-uvm-kernel
-	cp -Rf $(CURDIR)/$(dirname)/kernel/uvm $(CURDIR)/debian/temp/modules/nvidia-uvm-kernel/
+ifeq ($(DEB_HOST_ARCH),amd64)
+	# Make sure the UVM module is built
+	cat $(CURDIR)/debian/dkms.conf.fragment >> $(CURDIR)/debian/dkms_nvidia/dkms.conf
+endif
 
-	mkdir -p $(CURDIR)/debian/dkms_nvidia_uvm
-	cp -f $(CURDIR)/debian/dkms_nvidia_uvm.conf $(CURDIR)/debian/dkms_nvidia_uvm/dkms.conf
+ifeq ($(DEB_BUILD_ARCH),ppc64el)
+	# Make sure the UVM module is built
+	cat $(CURDIR)/debian/dkms.conf.fragment >> $(CURDIR)/debian/dkms_nvidia/dkms.conf
+endif
 
 override_dh_install: gen-abi-substvars
 	dh_install -p$(PKG_driver)
-ifeq ($(DEB_BUILD_ARCH),amd64)
+	dh_install -p$(PKG_driver_dev)
+ifeq ($(DIAGNOSTIC),1)
+	dh_install -p$(PKG_driver_diagnostic)
+endif
+ifeq ($(DEB_HOST_ARCH),amd64)
 	#32 bit libraries on 64 bit
 	dh_installdirs -p$(PKG_driver) "$(PKG_libdir32)"
 	dh_installdirs -p$(PKG_driver) "$(PKG_tlsdir32)"
 
 	dh_install -p$(PKG_driver) "$(dirname_x86)/libGL*.so*"  "$(PKG_libdir32)"
 	dh_install -p$(PKG_driver) "$(dirname_x86)/libGL.la"  "$(PKG_libdir32)"
+	dh_install -p$(PKG_driver) "$(dirname_x86)/libEGL.so.1"  "$(PKG_libdir32)"
+	dh_install -p$(PKG_driver) "$(dirname_x86)/libEGL_nvidia.so.*"  "$(PKG_libdir32)"
 	dh_install -p$(PKG_driver) "$(dirname_x86)/libnvidia*.so*"  "$(PKG_libdir32)"
 
 	dh_install -p$(PKG_driver)  "$(dirname_x86)/libvdpau*"  "$(PKG_vdpaudir32)"
@@ -373,7 +435,7 @@ ifeq ($(DEB_BUILD_ARCH),amd64)
 	   $(CURDIR)/$(dirname_x86)/libnvidia-opencl.so.$(PKG_version)
 endif
 
-ifneq ($(DEB_BUILD_ARCH),armhf)
+ifneq ($(DEB_HOST_ARCH),armhf)
 	# Move libnvidia-opencl back
 	mv $(CURDIR)/$(dirname)/_libnvidia-opencl.so.$(PKG_version) \
 	   $(CURDIR)/$(dirname)/libnvidia-opencl.so.$(PKG_version)
@@ -384,7 +446,7 @@ endif
 	sh -e $(CURDIR)/debian/nvidia_supported \
 		$(PKG_module) $(PKG_driver) \
 		$(dirname)/README.txt \
-		$(dirname)/kernel/nv-kernel.o \
+		$(dirname)/kernel/nvidia/nv-kernel.o_binary \
 		> $(CURDIR)/debian/$(PKG_driver).modaliases
 	# Take additional card ids from a text file
 	while read id sid; do \
@@ -405,9 +467,11 @@ endif
 	dh_installdirs -p$(PKG_driver) "$(ld_so_conf_dir)"
 	echo "$(PKG_libdir)" >	"$(CURDIR)/debian/$(PKG_driver)$(ld_so_conf_path)"
 	echo "$(mesa_libdir)" >	"$(CURDIR)/debian/$(PKG_driver)$(pm_ld_so_conf_path)"
-ifeq ($(DEB_BUILD_ARCH),amd64)
+	echo "$(mesa_egl_libdir)" >>	"$(CURDIR)/debian/$(PKG_driver)$(pm_ld_so_conf_path)"
+ifeq ($(DEB_HOST_ARCH),amd64)
 	echo "$(PKG_libdir32)" >>	"$(CURDIR)/debian/$(PKG_driver)$(ld_so_conf_path)"
 	echo "$(mesa_libdir_other)" >>	"$(CURDIR)/debian/$(PKG_driver)$(pm_ld_so_conf_path)"
+	echo "$(mesa_egl_libdir_other)" >>	"$(CURDIR)/debian/$(PKG_driver)$(pm_ld_so_conf_path)"
 endif
 	# empty ld.so.conf for the fake multi-arch alternative
 	$(shell touch "$(CURDIR)/debian/$(PKG_driver)$(alt_ld_so_conf_path)")
@@ -437,32 +501,42 @@ endif
 	# Remove libnvidia-opencl
 	find $(CURDIR)/debian/$(PKG_driver) -name 'libnvidia-opencl*.so*' | xargs /bin/rm -f
 
-	# Part about $(PKG_driver_uvm):
-	dh_install -p$(PKG_driver_uvm)
-	rm -rf debian/temp/modules/nvidia-uvm-kernel
+ifneq ($(DEB_HOST_ARCH),armhf)
+ifneq ($(DEB_HOST_ARCH),ppc64el)
+	# Remove the non-GLVND libGL and libEGL libraries
+	find $(CURDIR)/debian/$(PKG_driver) -name "libGL.so.1.0.0" -o -name "libEGL.so.1" | xargs /bin/rm -f
+endif
+endif
 
 	# Part about $(PKG_libcuda1):
 	dh_install -p$(PKG_libcuda1)
-ifeq ($(DEB_BUILD_ARCH),amd64)
+ifeq ($(DEB_HOST_ARCH),amd64)
 	dh_installdirs -p$(PKG_libcuda1) "$(libdir_multiarch_other)"
 	dh_install -p$(PKG_libcuda1) "$(dirname_x86)/libcuda*.so*"  "$(libdir_multiarch_other)"
 endif
 
 	# Part about $(PKG_libopencl1)
 	dh_install -p$(PKG_libopencl1)
-ifeq ($(DEB_BUILD_ARCH),amd64)
+ifeq ($(DEB_HOST_ARCH),amd64)
 	dh_installdirs -p$(PKG_libopencl1) "$(libdir_multiarch_other)"
 	dh_install -p$(PKG_libopencl1) "$(dirname_x86)/libOpenCL*.so*"  "$(libdir_multiarch_other)"
 endif
 
 	# Part about $(PKG_opencl_icd)
 	dh_install -p$(PKG_opencl_icd)
-ifeq ($(DEB_BUILD_ARCH),amd64)
+ifeq ($(DEB_HOST_ARCH),amd64)
 	dh_installdirs -p$(PKG_opencl_icd) "$(libdir_multiarch_other)"
 	dh_install -p$(PKG_opencl_icd) "$(dirname_x86)/libnvidia-opencl.so*"  "$(libdir_multiarch_other)"
 endif
 
 override_dh_strip:
+
+
+# Make the initramfs scripts executable
+override_dh_fixperms:
+	dh_fixperms
+	chmod 755 $(CURDIR)/debian/$(PKG_driver)/usr/share/initramfs-tools/hooks/framebuffer-nvidia
+	chmod 755 $(CURDIR)/debian/$(PKG_driver)/usr/share/initramfs-tools/hooks/copy-nvidia-options
 
 override_dh_clean: regen-from-templates
 	dh_clean
@@ -473,7 +547,7 @@ override_dh_clean: regen-from-templates
 #			rm -f $(CURDIR)/debian/`basename $$file | sed 's/\.in\$$//'`; \
 #		fi \
 #	done
-	rm -fr $(CURDIR)/$(dirname_x86) $(CURDIR)/$(dirname_x86_64) $(CURDIR)/$(dirname_armhf)
+	rm -fr $(CURDIR)/$(dirname_x86) $(CURDIR)/$(dirname_x86_64) $(CURDIR)/$(dirname_armhf) $(CURDIR)/$(dirname_ppc)
 	rm -fr debian/temp
 	rm -f debian/$(PKG_driver).substvars
 
