@@ -418,6 +418,7 @@ ifeq ($(DEB_HOST_ARCH),amd64)
 	dh_installdirs -p$(PKG_driver) "$(PKG_tlsdir32)"
 
 	dh_install -p$(PKG_driver) "$(dirname_x86)/libGL*.so*"  "$(PKG_libdir32)"
+	dh_install -p$(PKG_driver) "$(dirname_x86)/libOpenGL*.so*"  "$(PKG_libdir32)"
 	dh_install -p$(PKG_driver) "$(dirname_x86)/libGL.la"  "$(PKG_libdir32)"
 	dh_install -p$(PKG_driver) "$(dirname_x86)/libEGL.so.1"  "$(PKG_libdir32)"
 	dh_install -p$(PKG_driver) "$(dirname_x86)/libEGL_nvidia.so.*"  "$(PKG_libdir32)"
