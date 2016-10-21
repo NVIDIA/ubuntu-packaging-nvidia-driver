@@ -12,8 +12,11 @@ debian/copy-nvidia-options                   usr/share/initramfs-tools/hooks
 
 #DIRNAME#/libGL*.so*                  #PKGLIBDIR#
 #DIRNAME#/libOpenGL*.so*              #PKGLIBDIR#
-#DIRNAME#/libEGL*.so*                 #PKGLIBDIR#
 #DIRNAME#/libnv*.so*                  #PKGLIBDIR#
+
+#DIRNAME#/10_nvidia.json              #DATADIR#/glvnd/egl_vendor.d
+#DIRNAME#/libEGL.so.1                 #PKGLIBDIR#
+#DIRNAME#/libEGL_nvidia.so.*          #PKGLIBDIR#
 
 #DIRNAME#/libvdpau_nvidia.so*   #PKGVDPAUDIR#
 #ARM_EXCLUDED##DIRNAME#/tls/*.so*                   #PKGTLSDIR#
