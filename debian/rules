@@ -23,7 +23,6 @@ PKG_flavour          := $(shell dpkg-parsechangelog | sed -n 's/^Source: //p' | 
 PKG_driver           := nvidia-$(PKG_flavour)
 PKG_driver_dev       := $(PKG_driver)-dev
 PKG_driver_uvm       := $(PKG_driver)-uvm
-PKG_driver_diagnostic:= $(PKG_driver)-diagnostic
 PKG_version          := $(shell dpkg-parsechangelog | awk -F' ' '/^Version:/ {print $$2}' | awk -F- '{print $$1}')
 PKG_version          := $(shell echo $(PKG_version) | sed s/.*\.really\.//g)
 PKG_source           := $(shell dpkg-parsechangelog | sed -n 's/^Source: //p')
@@ -73,10 +72,6 @@ url                  := $(url_x86)
 web_arch             := ia32
 endif
 endif
-endif
-
-ifneq ($(DIAGNOSTIC),1)
-diagnostic           := \#
 endif
 
 release_notes        := http://www.nvidia.com/object/linux-display-$(web_arch)-$(PKG_version)-driver.html
@@ -257,7 +252,6 @@ regen-from-templates:
 			-e "s|#DRIVERNAME#|$(PKG_driver)|g" \
 			-e "s|#DRIVERDEVNAME#|$(PKG_driver_dev)|g" \
 			-e "s|#DRIVERUVMNAME#|$(PKG_driver_uvm)|g" \
-			-e "s|#DRIVERDIAGNOSTICNAME#|$(PKG_driver_diagnostic)|g" \
 			-e "s|#DRIVERSRCNAME#|$(PKG_source)|g" \
 			-e "s|#MODULENAME#|$(PKG_module)|g" \
 			-e "s|#LIBCUDA1#|$(PKG_libcuda1)|g" \
@@ -282,7 +276,6 @@ regen-from-templates:
 			-e "s|#ARM_EXCLUDED#|$(arm_excluded)|g" \
 			-e "s|#PPC_EXCLUDED#|$(ppc_excluded)|g" \
 			-e "s|#NVEXCLUDEMODULES#|$(DKMS_disabled_modules)|g" \
-			-e "s|#DIAGNOSTIC#|$(diagnostic)|g" \
 			$$i > $$dest;      \
 	done
 ifeq ($(DEB_HOST_ARCH),amd64)
@@ -409,16 +402,12 @@ endif
 override_dh_install: gen-abi-substvars
 	dh_install -p$(PKG_driver)
 	dh_install -p$(PKG_driver_dev)
-ifeq ($(DIAGNOSTIC),1)
-	dh_install -p$(PKG_driver_diagnostic)
-endif
 ifeq ($(DEB_HOST_ARCH),amd64)
 	#32 bit libraries on 64 bit
 	dh_installdirs -p$(PKG_driver) "$(PKG_libdir32)"
 	dh_installdirs -p$(PKG_driver) "$(PKG_tlsdir32)"
 
 	dh_install -p$(PKG_driver) "$(dirname_x86)/libGL*.so*"  "$(PKG_libdir32)"
-	dh_install -p$(PKG_driver) "$(dirname_x86)/libOpenGL*.so*"  "$(PKG_libdir32)"
 	dh_install -p$(PKG_driver) "$(dirname_x86)/libGL.la"  "$(PKG_libdir32)"
 	dh_install -p$(PKG_driver) "$(dirname_x86)/libEGL.so.1"  "$(PKG_libdir32)"
 	dh_install -p$(PKG_driver) "$(dirname_x86)/libEGL_nvidia.so.*"  "$(PKG_libdir32)"

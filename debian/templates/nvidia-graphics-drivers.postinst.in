@@ -27,6 +27,9 @@ case $ARCH in
     armhf)
         ARCH="armhf"
         ;;
+    ppc64el)
+        ARCH="ppc64el"
+        ;;
     *)
         echo "WARNING: unsupported arch: $ARCH"
         ARCH="$ARCH"
