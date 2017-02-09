@@ -18,8 +18,8 @@ debian/copy-nvidia-options                   usr/share/initramfs-tools/hooks
 #DIRNAME#/libEGL.so.1                 #PKGLIBDIR#
 #DIRNAME#/libEGL_nvidia.so.*          #PKGLIBDIR#
 
-#DIRNAME#/libvdpau_nvidia.so*   #PKGVDPAUDIR#
-#ARM_EXCLUDED##DIRNAME#/tls/*.so*                   #PKGTLSDIR#
+#PPC_EXCLUDED##DIRNAME#/libvdpau_nvidia.so*   #PKGVDPAUDIR#
+#PPC_EXCLUDED##ARM_EXCLUDED##DIRNAME#/tls/*.so*                   #PKGTLSDIR#
 
 debian/temp/modules/nvidia-kernel/kernel/*    usr/src/#DRIVERNAME#-#VERSION#
 debian/dkms_nvidia/patches/*                  usr/src/#DRIVERNAME#-#VERSION#/patches
