@@ -131,6 +131,11 @@ case "$1" in
             done
         fi
 
+        # Remove gl-less alternative if upgrading from gl-less driver
+        if [ -n "$(update-alternatives --list powerpc64le-linux-gnu_glless_conf 2>/dev/null)" ]; then
+            update-alternatives --remove-all powerpc64le-linux-gnu_glless_conf
+        fi
+
         # Deal with multi-arch ugliness until dpkg supports multi-arch:
         # - On amd64 we need to install an additional slave link for 32bit vdpau
         #   which - obviously - doesn't exist on i386
