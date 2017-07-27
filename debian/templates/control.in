@@ -46,6 +46,15 @@ Description: NVIDIA binary Xorg driver development files
  For more information on this source package visit NVIDIA's homepage
  at http://www.nvidia.com/ .
 
+#DIAGNOSTIC#Package: #DRIVERDIAGNOSTICNAME#
+#DIAGNOSTIC#Architecture: amd64
+#DIAGNOSTIC#Depends: ${misc:Depends}, #DRIVERNAME# (= #VERSION#-0ubuntu1)
+#DIAGNOSTIC#Provides: nvidia-current-diagnostic
+#DIAGNOSTIC#Conflicts: nvidia-current-diagnostic, nvidia-375-diagnostic
+#DIAGNOSTIC#Replaces: nvidia-current-diagnostic, nvidia-375-diagnostic
+#DIAGNOSTIC#Description: NVIDIA driver diagnostics utilities
+#DIAGNOSTIC# NVIDIA driver diagnostics utilities
+
 Package: #LIBCUDA1#
 Architecture: i386 amd64 armhf ppc64el
 Depends: ${shlibs:Depends}, ${misc:Depends}
