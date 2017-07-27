@@ -49,6 +49,9 @@ Description: NVIDIA binary Xorg driver development files
 #DIAGNOSTIC#Package: #DRIVERDIAGNOSTICNAME#
 #DIAGNOSTIC#Architecture: amd64
 #DIAGNOSTIC#Depends: ${misc:Depends}, #DRIVERNAME# (= #VERSION#-0ubuntu1)
+#DIAGNOSTIC#Provides: nvidia-current-diagnostic
+#DIAGNOSTIC#Conflicts: nvidia-current-diagnostic, nvidia-375-diagnostic
+#DIAGNOSTIC#Replaces: nvidia-current-diagnostic, nvidia-375-diagnostic
 #DIAGNOSTIC#Description: NVIDIA driver diagnostics utilities
 #DIAGNOSTIC# NVIDIA driver diagnostics utilities
 
