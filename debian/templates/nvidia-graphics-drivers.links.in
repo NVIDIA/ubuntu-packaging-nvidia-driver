@@ -11,6 +11,7 @@
 
 #PPC_EXCLUDED##PKGLIBDIR#/libGLX_nvidia.so.#VERSION# #PKGLIBDIR#/libGLX_nvidia.so.0
 #PPC_EXCLUDED##PKGLIBDIR#/libGLX_nvidia.so.#VERSION# #PKGLIBDIR#/libGLX_indirect.so.0
+#PPC_EXCLUDED##PKGLIBDIR#/libGLX_nvidia.so.#VERSION# #LIBDIRMULTIARCH#/libGLX_indirect.so.0
 
 # EGL client libraries
 
