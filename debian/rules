@@ -65,7 +65,7 @@ url                  := $(url_armhf)
 web_arch             := 32bit-arm
 arm_excluded         := \#
 else
-ifeq ($(DEB_BUILD_ARCH),ppc64el)
+ifeq ($(DEB_HOST_ARCH),ppc64el)
 filename             := $(filename_ppc)
 dirname              := $(dirname_ppc)
 ppc_excluded         := \#
@@ -139,7 +139,7 @@ grub_blacklistdir    := /usr/share/grub-gfxpayload-lists/blacklist
 ifeq ($(DEB_HOST_ARCH),amd64)
 DKMS_disabled_modules :=
 else
-ifeq ($(DEB_BUILD_ARCH),ppc64el)
+ifeq ($(DEB_HOST_ARCH),ppc64el)
 DKMS_disabled_modules :=
 else
 DKMS_disabled_modules := nvidia-uvm
@@ -409,12 +409,12 @@ ifeq ($(DEB_HOST_ARCH),amd64)
 	cat $(CURDIR)/debian/dkms.conf.fragment >> $(CURDIR)/debian/dkms_nvidia/dkms.conf
 endif
 
-ifeq ($(DEB_BUILD_ARCH),ppc64el)
+ifeq ($(DEB_HOST_ARCH),ppc64el)
 	# Make sure the UVM module is built
 	cat $(CURDIR)/debian/dkms.conf.fragment >> $(CURDIR)/debian/dkms_nvidia/dkms.conf
 endif
 
-ifeq ($(DEB_BUILD_ARCH),amd64)
+ifeq ($(DEB_HOST_ARCH),amd64)
 	# Create nvidia_icd.json with GLVND option
 	sed -e 's/__NV_VK_ICD__/libGLX_nvidia.so.0/g' $(dirname)/nvidia_icd.json.template > $(dirname)/nvidia_icd.json
 endif
