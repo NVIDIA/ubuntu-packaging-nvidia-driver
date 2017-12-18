@@ -354,7 +354,7 @@ ifeq ($(DEB_HOST_ARCH),amd64)
 	rm -rf $(CURDIR)/$(dirname_x86)/libnvidia-gtk*.so*
 endif
 
-ifneq ($(DEB_HOST_ARCH),armhf)
+ifeq ($(DEB_HOST_ARCH),amd64)
 	# This is for non-GLVND LibGL libraries
 	# Replace with libGLX_nvidia.so.0 when the transition to GLVND is complete
 	sed 's/__NV_VK_ICD__/libGL.so.1/g'  $(dirname)/nvidia_icd.json.template > \
@@ -412,11 +412,6 @@ endif
 ifeq ($(DEB_HOST_ARCH),ppc64el)
 	# Make sure the UVM module is built
 	cat $(CURDIR)/debian/dkms.conf.fragment >> $(CURDIR)/debian/dkms_nvidia/dkms.conf
-endif
-
-ifeq ($(DEB_HOST_ARCH),amd64)
-	# Create nvidia_icd.json with GLVND option
-	sed -e 's/__NV_VK_ICD__/libGLX_nvidia.so.0/g' $(dirname)/nvidia_icd.json.template > $(dirname)/nvidia_icd.json
 endif
 
 override_dh_install: gen-abi-substvars
