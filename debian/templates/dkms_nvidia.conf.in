@@ -1,29 +1,25 @@
-PACKAGE_NAME="nvidia"
+PACKAGE_NAME="#DRIVERNAME#"
 PACKAGE_VERSION="#VERSION#"
 CLEAN="make clean"
-UNAME=${kernelver%%-*}
-UNAME_MAJ=${UNAME%%.*}
-UNAME_MIN=${UNAME#*.}
-UNAME_MIN=${UNAME_MIN%%.*}
-TARGET_MAJ=5
-TARGET_MIN=10
-# Disable UVM on from Linux 5.10 on
-if [ "$UNAME_MAJ" -gt "$TARGET_MAJ" ] || [ "$UNAME_MAJ" -eq "$TARGET_MAJ" ] && [ "$UNAME_MIN" -ge "$TARGET_MIN" ]; then
-    EXCLUDED="nvidia-uvm"
-else
-    EXCLUDED=""
-fi
 BUILT_MODULE_NAME[0]="nvidia"
+DEST_MODULE_NAME[0]="#MODULENAME#"
 DEST_MODULE_LOCATION[0]="/kernel/drivers/char/drm"
 PROCS_NUM=`nproc`
 [ $PROCS_NUM -gt 16 ] && PROCS_NUM=16
-MAKE[0]="unset ARCH; [ ! -h /usr/bin/cc ] && export CC=/usr/bin/gcc; env NV_VERBOSE=1 \
-    'make' -j$PROCS_NUM NV_EXCLUDE_BUILD_MODULES='#NVEXCLUDEMODULES#' KERNEL_UNAME=${kernelver} IGNORE_XEN_PRESENCE=1 IGNORE_CC_MISMATCH=1 SYSSRC=$kernel_source_dir LD=/usr/bin/ld.bfd modules"
+MAKE[0]="'make' -j$PROCS_NUM NV_EXCLUDE_BUILD_MODULES='#NVEXCLUDEMODULES#' KERNEL_UNAME=${kernelver} IGNORE_XEN_PRESENCE=1 IGNORE_CC_MISMATCH=1 SYSSRC=$kernel_source_dir LD=/usr/bin/ld.bfd modules"
 BUILT_MODULE_NAME[1]="nvidia-modeset"
+DEST_MODULE_NAME[1]="#MODULENAME#_modeset"
 DEST_MODULE_LOCATION[1]="/kernel/drivers/char/drm"
 BUILT_MODULE_NAME[2]="nvidia-drm"
+DEST_MODULE_NAME[2]="#MODULENAME#_drm"
 DEST_MODULE_LOCATION[2]="/kernel/drivers/char/drm"
 AUTOINSTALL="yes"
-PATCH[0]="disable_fstack-clash-protection_fcf-protection.patch"
-PATCH[1]="buildfix_kernel_5.11.patch"
+#PATCH[0]="buildfix_kernel_4.14.patch"
+#PATCH[1]="buildfix_kernel_4.9.patch"
 #PATCH_MATCH[0]="^4.[6-7]"
+#PATCH[0]="allow_sublevel_greater_than_5.patch"
+#PATCH_MATCH[0]="^3.[8-9]"
+#PATCH[1]="buildfix_kernel_3.10.patch"
+#PATCH_MATCH[1]="^3.[10-11]"
+#PATCH[0]="buildfix_kernel_3.18.patch"
+#PATCH[1]="register-VT-switch-requirements.patch"
