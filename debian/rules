@@ -341,6 +341,9 @@ ifeq ($(DEB_HOST_ARCH),amd64)
 	sh $(filename_x86) --extract-only --target $(dirname_x86)
 endif
 
+	# Use copyright from runfile
+	mv $(dirname)/LICENSE $(CURDIR)/debian/copyright 
+
 ifneq ($(DEB_HOST_ARCH),armhf)
 	# Temporarily rename libnvidia-opencl so that the .install file does
 	# not catch it, as $(PKG_libcuda1) will instead
