@@ -434,7 +434,7 @@ ifeq ($(DEB_HOST_ARCH),amd64)
 	dh_install -p$(PKG_driver) "$(dirname_x86)/libGL*.so*"  "$(PKG_libdir32)"
 	dh_install -p$(PKG_driver) "$(dirname_x86)/libOpenGL*.so*"  "$(PKG_libdir32)"
 	dh_install -p$(PKG_driver) "$(dirname_x86)/libGL.la"  "$(PKG_libdir32)"
-	dh_install -p$(PKG_driver) "$(dirname_x86)/libEGL.so.1"  "$(PKG_libdir32)"
+	dh_install -p$(PKG_driver) "$(dirname_x86)/libEGL.so*"  "$(PKG_libdir32)"
 	dh_install -p$(PKG_driver) "$(dirname_x86)/libEGL_nvidia.so.*"  "$(PKG_libdir32)"
 	dh_install -p$(PKG_driver) "$(dirname_x86)/libnvidia*.so*"  "$(PKG_libdir32)"
 
@@ -519,7 +519,8 @@ endif
 ifneq ($(DEB_HOST_ARCH),armhf)
 ifneq ($(DEB_HOST_ARCH),ppc64el)
 	# Remove the non-GLVND libGL and libEGL libraries
-	find $(CURDIR)/debian/$(PKG_driver) -name "libGL.so.1.0.0" | xargs /bin/rm -f
+	find $(CURDIR)/debian/$(PKG_driver) -name "libGL.so.1.*" | xargs /bin/rm -f
+	find $(CURDIR)/debian/$(PKG_driver) -name "libEGL.so.1.*" | xargs /bin/rm -f
 endif
 endif
 
