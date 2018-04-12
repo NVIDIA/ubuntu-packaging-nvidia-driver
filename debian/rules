@@ -39,6 +39,10 @@ DKMS_disabled_modules := nvidia-uvm
 amd64_only := \#
 endif
 
+ifneq ($(DIAGNOSTIC),1)
+diagnostic := \#
+endif
+
 
 comma		 = ,
 xorg_depends	 = $(foreach abi, $(XORG_ABI_LIST), xorg-video-abi-$(abi) |)
@@ -185,6 +189,7 @@ regen-from-templates:
 			-e "s|#VERSION#|$(version)|g" \
 			-e "s|#MODULENAME#|$(version)|g" \
 			-e "s|#DEB_HOST_MULTIARCH#|$(DEB_HOST_MULTIARCH)|g" \
+			-e "s|#DIAGNOSTIC#|$(diagnostic)|g" \
 			$$i > $$dest;      \
 	done
 
