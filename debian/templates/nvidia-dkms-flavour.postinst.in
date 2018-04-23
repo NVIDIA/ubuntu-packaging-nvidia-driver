@@ -131,6 +131,21 @@ case "$1" in
             fi
         fi
 
+        echo
+        echo "A modprobe blacklist file has been created at /etc/modprobe.d to prevent Nouveau"
+        echo "from loading. This can be reverted by deleting the following file:"
+        echo "/etc/modprobe.d/nvidia-graphics-drivers.conf"
+        echo
+        echo "A new initrd image has also been created. To revert, please regenerate your"
+        echo "initrd by running the following command after deleting the modprobe.d file:"
+        echo "\`/usr/sbin/initramfs -u\`"
+        echo
+        echo "*****************************************************************************"
+        echo "*** Reboot your computer and verify that the NVIDIA graphics driver can   ***"
+        echo "*** be loaded.                                                            ***"
+        echo "*****************************************************************************"
+        echo
+
         # Enable any quirks for the driver
         if [ `which quirks-handler` ]; then
            quirks-handler -e $PACKAGE_NAME -v
