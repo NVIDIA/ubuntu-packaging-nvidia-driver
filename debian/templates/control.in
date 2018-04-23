@@ -29,7 +29,9 @@ Architecture: i386 amd64 armhf
 Depends:
  libnvidia-gl-#FLAVOUR# (= ${binary:Version}),
  nvidia-dkms-#FLAVOUR# (= ${binary:Version}),
- nvidia-compute-#FLAVOUR# (= ${binary:Version}),
+ nvidia-kernel-source-#FLAVOUR# (= ${binary:Version}),
+ libnvidia-compute-#FLAVOUR# (= ${binary:Version}),
+ nvidia-compute-utils-#FLAVOUR# (= ${binary:Version}),
  libnvidia-decode-#FLAVOUR# (= ${binary:Version}) [i386 amd64],
  libnvidia-encode-#FLAVOUR# (= ${binary:Version}) [i386 amd64],
  nvidia-utils-#FLAVOUR# (= ${binary:Version}),
@@ -39,9 +41,13 @@ Depends:
  libnvidia-fbc1-#FLAVOUR# (= ${binary:Version}),
  ${misc:Depends}
 Recommends:
- nvidia-settings,
-#nvidia-prime (>= 0.5) | bumblebee
-# nvidia-persistenced,
+ nvidia-settings, nvidia-prime (>= 0.8),
+ libnvidia-compute-#FLAVOUR#:i386 (= ${binary:Version}) [amd64],
+ libnvidia-decode-#FLAVOUR#:i386 (= ${binary:Version}) [amd64],
+ libnvidia-encode-#FLAVOUR#:i386 (= ${binary:Version}) [amd64],
+ libnvidia-ifr1-#FLAVOUR#:i386 (= ${binary:Version}) [amd64],
+ libnvidia-fbc1-#FLAVOUR#:i386 (= ${binary:Version}) [amd64],
+ libnvidia-gl-#FLAVOUR#:i386 (= ${binary:Version}) [amd64]
 XB-Modaliases: ${modaliases}
 Description: NVIDIA driver metapackage
  This metapackage depends on the NVIDIA binary driver and on all of its libraries,
@@ -77,7 +83,7 @@ Replaces:
 Provides:
  nvidia-dkms-kernel
 Depends:
- dkms, nvidia-kernel-source-#FLAVOUR#,
+ dkms, nvidia-kernel-source-#FLAVOUR#, nvidia-kernel-common-#FLAVOUR#,
  ${misc:Depends}, ${shlibs:Depends}
 Description: NVIDIA DKMS package
  This package builds the NVIDIA kernel module needed by the userspace
@@ -106,15 +112,13 @@ Architecture: i386 amd64 armhf
 Multi-Arch: same
 Depends:
   ${misc:Depends}, ${shlibs:Depends}
-Recommends:
- libnvidia-compute-#FLAVOUR#:i386 [amd64],
 Provides: nvidia-opencl-icd, opencl-icd, libcuda-5.0-1, libcuda-5.5-1,
  libcuda-6.0-1, libcuda-6.5-1, libcuda-7.0-1, libcuda-7.5-1, libcuda-8.0-1,
  libcuda-9.0-1, libcuda-9.1-1
-Conflicts: nvidia-opencl-icd, opencl-icd, libcuda-5.0-1, libcuda-5.5-1,
+Conflicts: nvidia-opencl-icd, libcuda-5.0-1, libcuda-5.5-1,
  libcuda-6.0-1, libcuda-6.5-1, libcuda-7.0-1, libcuda-7.5-1, libcuda-8.0-1,
  libcuda-9.0-1, libcuda-9.1-1
-Replaces: nvidia-opencl-icd, opencl-icd, libcuda-5.0-1, libcuda-5.5-1,
+Replaces: nvidia-opencl-icd, libcuda-5.0-1, libcuda-5.5-1,
  libcuda-6.0-1, libcuda-6.5-1, libcuda-7.0-1, libcuda-7.5-1, libcuda-8.0-1,
  libcuda-9.0-1, libcuda-9.1-1, libnvidia-compute-#FLAVOUR# (<< 390.25-0ubuntu2~)
 Description: NVIDIA libcompute package
@@ -141,7 +145,7 @@ Description: NVIDIA compute utilities
  has compute capability SM 3.5 or higher.
  Pre-CUDA 4.0 APIs are not supported under CUDA MPS.
 
-Package: nvidia-compute-no-dkms-#FLAVOUR#
+Package: nvidia-headless-no-dkms-#FLAVOUR#
 Architecture: i386 amd64 armhf
 Conflicts: nvidia-384 (<< 390.25), nvidia-390 (<< 390.25-0ubuntu1)
 Provides: nvidia-384
@@ -151,7 +155,7 @@ Depends:
  libnvidia-compute-#FLAVOUR# (= ${binary:Version}),
  nvidia-compute-utils-#FLAVOUR# (= ${binary:Version}),
  ${misc:Depends}, ${shlibs:Depends}
-Description: NVIDIA computing metapackage - no DKMS
+Description: NVIDIA headless metapackage - no DKMS
  This metapackage installs the NVIDIA driver and the libraries that enable
  parallel general purpose computation through CUDA and
  OpenCL. DKMS will not be installed, and, therefore, the kernel module
@@ -160,19 +164,35 @@ Description: NVIDIA computing metapackage - no DKMS
  Install this package if you do not need X11 or Wayland support, which is
  provided by the nvidia-driver-#FLAVOUR# metapackage.
 
-Package: nvidia-compute-#FLAVOUR#
+Package: nvidia-headless-#FLAVOUR#
 Architecture: i386 amd64 armhf
 Depends:
- nvidia-compute-no-dkms-#FLAVOUR#,
+ nvidia-headless-no-dkms-#FLAVOUR#,
  nvidia-dkms-#FLAVOUR#,
  ${misc:Depends}, ${shlibs:Depends}
-Description: NVIDIA computing metapackage
+Description: NVIDIA headless metapackage
  This metapackage installs the NVIDIA driver and the libraries that enable
  parallel general purpose computation through CUDA and
  OpenCL.
  .
  Install this package if you do not need X11 or Wayland support, which is
  provided by the nvidia-driver-#FLAVOUR# metapackage.
+
+Package: nvidia-kernel-common-#FLAVOUR#
+Architecture: i386 amd64 armhf
+Conflicts: nvidia-kernel-common
+Provides: nvidia-kernel-common
+Depends:
+ ${misc:Depends}, ${shlibs:Depends}
+Replaces:
+ nvidia-dkms-#FLAVOUR# (<< 390.48-0ubuntu3~), nvidia-kernel-common
+Description: Shared files used with the kernel module
+ This package installs all the optional accessory files for the NVIDIA
+ kernel module.
+ .
+ Install this package if you want to blacklist any conflicting kernel
+ modules, and if you want udev to load the the NVIDIA kernel modules,
+ and to create the uvm devices automatically.
 
 Package: libnvidia-gl-#FLAVOUR#
 Architecture: i386 amd64 armhf
@@ -181,9 +201,7 @@ Conflicts: libnvidia-gl
 Replaces: libnvidia-gl, nvidia-384 (<< 390.25), nvidia-390 (<< 390.25-0ubuntu1)
 Provides: libnvidia-gl, libglx-vendor, libegl-vendor
 Depends:
- libnvidia-common-#FLAVOUR#, ${misc:Depends}, ${shlibs:Depends}
-Recommends:
- libnvidia-gl-#FLAVOUR#:i386 [amd64]
+ libnvidia-common-#FLAVOUR#, libgl1, libegl1, libopengl0, libgles2, ${misc:Depends}, ${shlibs:Depends}
 Description: NVIDIA OpenGL/GLX/EGL/GLES GLVND libraries and Vulkan ICD
  This package provides the NVIDIA OpenGL/GLX/EGL/GLES libraries and the
  Vulkan ICD.
@@ -246,8 +264,6 @@ Pre-Depends:
 Depends:
  libnvidia-gl-#FLAVOUR#, libx11-6,
  ${shlibs:Depends}, ${misc:Depends}
-Recommends:
- libnvidia-ifr1-#FLAVOUR#:i386 [amd64]
 Provides:
  libnvidia-ifr1,
 Conflicts:
@@ -270,8 +286,6 @@ Pre-Depends:
 Depends:
 # ${nvidia}-alternative (= ${binary:Version}),
  ${shlibs:Depends}, ${misc:Depends}
-Recommends:
- libnvidia-fbc1-#FLAVOUR#:i386 [amd64],
 Provides:
  libnvidia-fbc1,
 Conflicts:
@@ -294,8 +308,6 @@ Pre-Depends:
 Depends:
  libnvidia-compute-#FLAVOUR# (= ${binary:Version}),
  ${shlibs:Depends}, ${misc:Depends}
-Recommends:
- libnvidia-decode-#FLAVOUR#:i386 [amd64],
 Conflicts:
  libnvidia-decode,
 Replaces:
@@ -316,8 +328,6 @@ Pre-Depends:
  ${misc:Pre-Depends}
 Depends:
  ${shlibs:Depends}, ${misc:Depends}
-Recommends:
- libnvidia-encode-#FLAVOUR#:i386 [amd64],
 Conflicts:
  libnvidia-encode,
 Provides:
@@ -363,22 +373,22 @@ Description: Transitional package for nvidia-driver-#FLAVOUR#
 
 Package: nvidia-libopencl1-384
 Architecture: i386 amd64
-Depends: nvidia-compute-#FLAVOUR#
-Description: Transitional package for nvidia-compute-#FLAVOUR#
- This is a transitional package for nvidia-compute-#FLAVOUR#, and can be
+Depends: nvidia-headless-#FLAVOUR#
+Description: Transitional package for nvidia-headless-#FLAVOUR#
+ This is a transitional package for nvidia-headless-#FLAVOUR#, and can be
  safely removed after the installation is complete.
 
 Package: nvidia-opencl-icd-384
 Architecture: i386 amd64
-Depends: nvidia-compute-#FLAVOUR#
-Description: Transitional package for nvidia-compute-#FLAVOUR#
- This is a transitional package for nvidia-compute-#FLAVOUR#, and can be
+Depends: nvidia-headless-#FLAVOUR#
+Description: Transitional package for nvidia-headless-#FLAVOUR#
+ This is a transitional package for nvidia-headless-#FLAVOUR#, and can be
  safely removed after the installation is complete.
 
 Package: libcuda1-384
 Architecture: i386 amd64 armhf
-Depends: nvidia-compute-#FLAVOUR#
-Description: Transitional package for nvidia-compute-#FLAVOUR#
- This is a transitional package for nvidia-compute-#FLAVOUR#, and can be
+Depends: nvidia-headless-#FLAVOUR#
+Description: Transitional package for nvidia-headless-#FLAVOUR#
+ This is a transitional package for nvidia-headless-#FLAVOUR#, and can be
  safely removed after the installation is complete.
 
