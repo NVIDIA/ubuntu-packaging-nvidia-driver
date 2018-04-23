@@ -1,0 +1,10 @@
+The package that is already installed is named #DRIVERNAME#-#FLAVOUR#.
+
+You can upgrade the driver by running:
+`apt-get install #DRIVERNAME#-#FLAVOUR#`
+
+You can remove #DRIVERNAME#-#FLAVOUR#, and all related packages, by running:
+`apt-get remove --purge #DRIVERNAME#`
+`apt-get autoremove`
+
+This package is maintained by NVIDIA (cudatools@nvidia.com).
