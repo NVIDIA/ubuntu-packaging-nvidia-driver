@@ -8,7 +8,7 @@ debian/framebuffer-nvidia                    usr/share/initramfs-tools/hooks
 debian/copy-nvidia-options                   usr/share/initramfs-tools/hooks
 
 #DIRNAME#/nvidia_drv.so #PKGDRIVERSDIR#
-#DIRNAME#/libglx.so.#VERSION# #NVIDIAEXTENSION#
+#DIRNAME#/libglxserver_nvidia.so.#VERSION#   #NVIDIAEXTENSION#
 
 #DIRNAME#/libGL*.so*                  #PKGLIBDIR#
 #DIRNAME#/libOpenGL*.so*              #PKGLIBDIR#

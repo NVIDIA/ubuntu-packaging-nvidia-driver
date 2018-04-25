@@ -13,7 +13,7 @@
 #PKGLIBDIR#/libnvidia-ptxjitcompiler.so.#VERSION# #PKGLIBDIR#/libnvidia-ptxjitcompiler.so.1
 #PKGLIBDIR#/libnvidia-ptxjitcompiler.so.1 #PKGLIBDIR#/libnvidia-ptxjitcompiler.so
 
-#NVIDIAEXTENSION#/libglx.so.#VERSION# #NVIDIAEXTENSION#/libglx.so
+#NVIDIAEXTENSION#/libglxserver_nvidia.so.#VERSION# #NVIDIAEXTENSION#/libglxserver_nvidia.so
 
 #PKGVDPAUDIR#/libvdpau_nvidia.so.#VERSION# #PKGVDPAUDIR#/libvdpau_nvidia.so.1
 #PKGVDPAUDIR#/libvdpau_nvidia.so.1 #PKGVDPAUDIR#/libvdpau_nvidia.so
