@@ -1,0 +1,2 @@
+debian/headers/cl*.h                           #INCLUDEDIR#/#DRIVERNAME#/CL
+debian/headers/cuda*.h                         #INCLUDEDIR#/#DRIVERNAME#/cuda
