@@ -31,6 +31,12 @@ else
 arm_excluded         :=
 endif
 
+ifeq ($(DEB_HOST_ARCH),ppc64el)
+ppc_excluded         := \#
+else
+ppc_excluded         :=
+endif
+
 ifeq ($(DEB_HOST_ARCH),amd64)
 DKMS_disabled_modules :=
 amd64_only :=
@@ -123,6 +129,11 @@ ifeq ($(DEB_HOST_ARCH),amd64)
 	cat $(CURDIR)/debian/dkms.conf.fragment >> $(CURDIR)/debian/dkms.conf
 endif
 
+ifeq ($(DEB_HOST_ARCH),ppc64el)
+	# Make sure the UVM module is built
+	cat $(CURDIR)/debian/dkms.conf.fragment >> $(CURDIR)/debian/dkms.conf
+endif
+
 	dh_install -p nvidia-compute-utils-$(version_major)
 	mkdir -p $(CURDIR)/debian/nvidia-compute-utils-$(version_major)/lib/systemd
 	dh_systemd_enable --name=nvidia-persistenced
@@ -182,6 +193,7 @@ regen-from-templates:
 				 sed -e "s|flavour|$(flavour)|g"`; \
 		sed -e "s|#LIBDIR#|$(libdir)|g"         \
 			-e "s|#ARM_EXCLUDED#|$(arm_excluded)|g" \
+			-e "s|#PPC_EXCLUDED#|$(ppc_excluded)|g" \
 			-e "s|#AMD64_ONLY#|$(amd64_only)|g" \
 			-e "s|#NVEXCLUDEMODULES#|$(DKMS_disabled_modules)|g" \
 			-e "s|#FLAVOUR#|$(flavour)|g" \
