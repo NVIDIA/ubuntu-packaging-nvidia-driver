@@ -21,6 +21,7 @@ debian/copy-nvidia-options                   usr/share/initramfs-tools/hooks
 
 #PPC_EXCLUDED##DIRNAME#/libvdpau_nvidia.so*   #PKGVDPAUDIR#
 #PPC_EXCLUDED##ARM_EXCLUDED##DIRNAME#/tls/*.so*                   #PKGTLSDIR#
+#PPC_EXCLUDED##DIRNAME#/libnvoptix.so.*       #PKGLIBDIR#
 
 debian/temp/modules/nvidia-kernel/kernel/*    usr/src/#DRIVERNAME#-#VERSION#
 debian/dkms_nvidia/patches/*                  usr/src/#DRIVERNAME#-#VERSION#/patches
