@@ -3,4 +3,4 @@
 #LIBDIR#/libEGL_nvidia.so.#VERSION#                                             #LIBDIR#/libEGL_nvidia.so.0
 #LIBDIR#/libGLESv2_nvidia.so.#VERSION#                                          #LIBDIR#/libGLESv2_nvidia.so.2
 #LIBDIR#/libGLESv1_CM_nvidia.so.#VERSION#                                       #LIBDIR#/libGLESv1_CM_nvidia.so.1
-#LIBDIR#/libnvoptix.so.#VERSION#                                                #LIBDIR#/libnvoptix.so.1
+#PPC_EXCLUDED##LIBDIR#/libnvoptix.so.#VERSION#                                  #LIBDIR#/libnvoptix.so.1
