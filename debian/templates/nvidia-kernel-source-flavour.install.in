@@ -1,4 +1,4 @@
-#AMD64_ONLY#NVIDIA-Linux/kernel/nvidia-uvm                           usr/src/nvidia-#VERSION#
+NVIDIA-Linux/kernel/nvidia-uvm                                       usr/src/nvidia-#VERSION#
 NVIDIA-Linux/kernel/Kbuild                                           usr/src/nvidia-#VERSION#
 NVIDIA-Linux/kernel/Makefile                                         usr/src/nvidia-#VERSION#
 NVIDIA-Linux/kernel/common                                           usr/src/nvidia-#VERSION#

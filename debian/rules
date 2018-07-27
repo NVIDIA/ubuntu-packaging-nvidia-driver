@@ -41,7 +41,7 @@ ifeq ($(DEB_HOST_ARCH),amd64)
 DKMS_disabled_modules :=
 amd64_only :=
 else
-DKMS_disabled_modules := nvidia-uvm
+DKMS_disabled_modules :=
 amd64_only := \#
 endif
 
