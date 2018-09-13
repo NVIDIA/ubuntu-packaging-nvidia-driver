@@ -56,4 +56,4 @@
 #PKGLIBDIR32#/libnvidia-fbc.so.#VERSION# #PKGLIBDIR32#/libnvidia-fbc.so.1
 #PKGLIBDIR32#/libnvidia-fbc.so.1 #PKGLIBDIR32#/libnvidia-fbc.so
 
-#PKGLIBDIR32#/libnvidia-egl-wayland.so.1.0.1 #PKGLIBDIR32#/libnvidia-egl-wayland.so.1
+#PKGLIBDIR32#/libnvidia-egl-wayland.so.1.* #PKGLIBDIR32#/libnvidia-egl-wayland.so.1
