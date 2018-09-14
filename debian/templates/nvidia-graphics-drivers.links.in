@@ -47,11 +47,11 @@
 #PKGLIBDIR#/libnvidia-ml.so.#VERSION# #PKGLIBDIR#/libnvidia-ml.so.1
 #PKGLIBDIR#/libnvidia-ml.so.1 #PKGLIBDIR#/libnvidia-ml.so
 
-#PPC_EXCLUDED##PKGLIBDIR#/libnvcuvid.so.#VERSION# #PKGLIBDIR#/libnvcuvid.so.1
-#PPC_EXCLUDED##PKGLIBDIR#/libnvcuvid.so.1 #PKGLIBDIR#/libnvcuvid.so
+#PKGLIBDIR#/libnvcuvid.so.#VERSION# #PKGLIBDIR#/libnvcuvid.so.1
+#PKGLIBDIR#/libnvcuvid.so.1 #PKGLIBDIR#/libnvcuvid.so
 
-#PPC_EXCLUDED##PKGLIBDIR#/libnvidia-encode.so.#VERSION# #PKGLIBDIR#/libnvidia-encode.so.1
-#PPC_EXCLUDED##PKGLIBDIR#/libnvidia-encode.so.1 #PKGLIBDIR#/libnvidia-encode.so
+#PKGLIBDIR#/libnvidia-encode.so.#VERSION# #PKGLIBDIR#/libnvidia-encode.so.1
+#PKGLIBDIR#/libnvidia-encode.so.1 #PKGLIBDIR#/libnvidia-encode.so
 
 #PPC_EXCLUDED##PKGLIBDIR#/libnvidia-ifr.so.#VERSION# #PKGLIBDIR#/libnvidia-ifr.so.1
 #PPC_EXCLUDED##PKGLIBDIR#/libnvidia-ifr.so.1 #PKGLIBDIR#/libnvidia-ifr.so
