@@ -1,9 +1,14 @@
 [Unit]
 Description=NVIDIA Persistence Daemon
-Wants=syslog.target
+After=syslog.target
 
 [Service]
 Type=forking
-ExecStart=/usr/bin/nvidia-persistenced --user root --no-persistence-mode --verbose
-ExecStopPost=/bin/rm -rf /var/run/nvidia-persistenced
+PIDFile=/var/run/nvidia-persistenced/nvidia-persistenced.pid
+Restart=always
+ExecStart=/usr/bin/nvidia-persistenced --verbose
+ExecStopPost=/bin/rm -rf /var/run/nvidia-persistenced/*
 TimeoutSec=300
+
+[Install]
+WantedBy=multi-user.target
