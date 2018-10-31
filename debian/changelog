@@ -1,5 +1,5 @@
-nvidia-graphics-drivers-400 (400.00-0ubuntu1) bionic; urgency=medium
+nvidia-graphics-drivers-418 (418.00-0ubuntu1) bionic; urgency=medium
 
-  * Initial branch creation.
+  * Start work on 418.
 
- -- Andy Dick <adick@nvidia.com>  Tue, 27 Mar 2018 15:41:41 -0700
+ -- Alex Dibbley <adibbley@nvidia.com>  Wed, 31 Oct 2018 14:06:57 -0700
