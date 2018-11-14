@@ -1,10 +1,10 @@
 NVIDIA-Linux/libnvidia-glcore.so.#VERSION#                           #LIBDIR#
-NVIDIA-Linux/libglxserver_nvidia.so.#VERSION#                        #LIBDIR#/nvidia/xorg
+#AMD64_ONLY#NVIDIA-Linux/libglxserver_nvidia.so.#VERSION#            #LIBDIR#/xorg
 NVIDIA-Linux/libnvidia-tls.so.#VERSION#                              #LIBDIR#/
-#PPC_EXCLUDED#NVIDIA-Linux/libnvidia-glvkspirv.so.#VERSION#          #LIBDIR#/
-#PPC_EXCLUDED##ARM_EXCLUDED#NVIDIA-Linux/libnvidia-tls.so.#VERSION#            #LIBDIR#/tls
+NVIDIA-Linux/libnvidia-tls.so.#VERSION#                              #LIBDIR#/tls
 #ARM_EXCLUDED#NVIDIA-Linux/nvidia_icd.json                           usr/share/vulkan/icd.d
 NVIDIA-Linux/libGLX_nvidia.so.#VERSION#                              #LIBDIR#
+NVIDIA-Linux/libnvidia-glvkspirv.so.#VERSION#                        #LIBDIR#/
 NVIDIA-Linux/10_nvidia.json                                          usr/share/glvnd/egl_vendor.d
 NVIDIA-Linux/libnvidia-eglcore.so.#VERSION#                          #LIBDIR#
 NVIDIA-Linux/libnvidia-glsi.so.#VERSION#                             #LIBDIR#

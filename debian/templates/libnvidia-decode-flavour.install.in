@@ -1,2 +1,2 @@
-#PPC_EXCLUDED#NVIDIA-Linux/libvdpau_nvidia.so.#VERSION#                            #LIBDIR#/vdpau
-#PPC_EXCLUDED#NVIDIA-Linux/libnvcuvid.so.#VERSION#                                 #LIBDIR#
+NVIDIA-Linux/libvdpau_nvidia.so.#VERSION#                            #LIBDIR#/vdpau
+NVIDIA-Linux/libnvcuvid.so.#VERSION#                                 #LIBDIR#
