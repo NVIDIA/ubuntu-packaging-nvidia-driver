@@ -1,4 +1,4 @@
-#LIBDIR#/nvidia/xorg/libglxserver_nvidia.so.#VERSION#                           #LIBDIR#/nvidia/xorg/libglxserver_nvidia.so
+#LIBDIR#/xorg/libglxserver_nvidia.so.#VERSION#                                  #LIBDIR#/xorg/libglxserver_nvidia.so
 #LIBDIR#/libGLX_nvidia.so.#VERSION#                                             #LIBDIR#/libGLX_nvidia.so.0
 #LIBDIR#/libEGL_nvidia.so.#VERSION#                                             #LIBDIR#/libEGL_nvidia.so.0
 #LIBDIR#/libGLESv2_nvidia.so.#VERSION#                                          #LIBDIR#/libGLESv2_nvidia.so.2
