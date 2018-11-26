@@ -1,4 +1,5 @@
 NVIDIA-Linux/libnvidia-ml.so.#VERSION#                               #LIBDIR#
+NVIDIA-Linux/libnvidia-of.so.#VERSION#                               #LIBDIR#
 NVIDIA-Linux/libcuda.so.#VERSION#                                    #LIBDIR#
 #ARM_EXCLUDED#NVIDIA-Linux/libnvidia-opencl.so.#VERSION#             #LIBDIR#
 #ARM_EXCLUDED#NVIDIA-Linux/nvidia.icd                                etc/OpenCL/vendors
