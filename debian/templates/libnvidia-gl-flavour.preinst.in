@@ -86,6 +86,8 @@ case "$1" in
             # Clean up debris from previous nvidia packages
             _clean_up
         fi
+
+        [[ -f /etc/gdm3/custom.conf ]] && sed -i -e '/WaylandEnable=false/s/#//g' /etc/gdm3/custom.conf ||:
     ;;
 
     abort-upgrade)
