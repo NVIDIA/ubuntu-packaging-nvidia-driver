@@ -44,8 +44,8 @@
 #PKGLIBDIR32#/libnvidia-ml.so.#VERSION# #PKGLIBDIR32#/libnvidia-ml.so.1
 #PKGLIBDIR32#/libnvidia-ml.so.1 #PKGLIBDIR32#/libnvidia-ml.so
 
-#PKGLIBDIR32#/libnvidia-of.so.#VERSION# #PKGLIBDIR32#/libnvidia-of.so.1
-#PKGLIBDIR32#/libnvidia-of.so.1 #PKGLIBDIR32#/libnvidia-of.so
+#PKGLIBDIR32#/libnvidia-opticalflow.so.#VERSION# #PKGLIBDIR32#/libnvidia-opticalflow.so.1
+#PKGLIBDIR32#/libnvidia-opticalflow.so.1 #PKGLIBDIR32#/libnvidia-opticalflow.so
 
 #PKGLIBDIR32#/libnvcuvid.so.#VERSION# #PKGLIBDIR32#/libnvcuvid.so.1
 #PKGLIBDIR32#/libnvcuvid.so.1 #PKGLIBDIR32#/libnvcuvid.so
