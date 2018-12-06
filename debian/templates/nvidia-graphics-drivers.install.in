@@ -20,7 +20,7 @@ debian/copy-nvidia-options                   usr/share/initramfs-tools/hooks
 #DIRNAME#/10_nvidia_wayland.json      #DATADIR#/egl/egl_external_platform.d
 
 #PPC_EXCLUDED##DIRNAME#/libvdpau_nvidia.so*   #PKGVDPAUDIR#
-#PPC_EXCLUDED##ARM_EXCLUDED##DIRNAME#/*.so*                   #PKGTLSDIR#
+#PPC_EXCLUDED##ARM_EXCLUDED##DIRNAME#/libnvidia-tls.so*                   #PKGTLSDIR#
 #PPC_EXCLUDED##DIRNAME#/libnvoptix.so.*       #PKGLIBDIR#
 
 debian/temp/modules/nvidia-kernel/kernel/*    usr/src/#DRIVERNAME#-#VERSION#
