@@ -429,6 +429,7 @@ endif
 ifeq ($(DEB_HOST_ARCH),amd64)
 	#32 bit libraries on 64 bit
 	dh_installdirs -p$(PKG_driver) "$(PKG_libdir32)"
+	dh_installdirs -p$(PKG_driver) "$(PKG_tlsdir32)"
 
 	dh_install -p$(PKG_driver) "$(dirname_x86)/libGL*.so*"  "$(PKG_libdir32)"
 	dh_install -p$(PKG_driver) "$(dirname_x86)/libOpenGL*.so*"  "$(PKG_libdir32)"
@@ -438,6 +439,7 @@ ifeq ($(DEB_HOST_ARCH),amd64)
 	dh_install -p$(PKG_driver) "$(dirname_x86)/libnvidia*.so*"  "$(PKG_libdir32)"
 
 	dh_install -p$(PKG_driver)  "$(dirname_x86)/libvdpau*"  "$(PKG_vdpaudir32)"
+	dh_install -p$(PKG_driver)  "$(dirname_x86)/libnvidia-tls*"  "$(PKG_tlsdir32)"
 
 	dh_install -p$(PKG_driver) "$(dirname_x86)/libnvidia-compiler*.so*"  "$(PKG_libdir32)"
 	dh_install -p$(PKG_driver) "$(dirname_x86)/libnvcuvid*.so*"  "$(PKG_libdir32)"
