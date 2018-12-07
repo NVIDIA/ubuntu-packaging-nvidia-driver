@@ -87,7 +87,7 @@ case "$1" in
             _clean_up
         fi
 
-        [[ -f /etc/gdm3/custom.conf ]] && sed -i -e '/WaylandEnable=false/s/#//g' /etc/gdm3/custom.conf ||:
+        [ -f /etc/gdm3/custom.conf ] && sed -i -e '/WaylandEnable=false/s/#//g' /etc/gdm3/custom.conf ||:
     ;;
 
     abort-upgrade)
