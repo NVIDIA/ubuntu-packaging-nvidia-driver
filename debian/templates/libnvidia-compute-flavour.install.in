@@ -1,5 +1,4 @@
 NVIDIA-Linux/libnvidia-ml.so.#VERSION#                               #LIBDIR#
-NVIDIA-Linux/libnvidia-opticalflow.so.#VERSION#                      #LIBDIR#
 NVIDIA-Linux/libcuda.so.#VERSION#                                    #LIBDIR#
 NVIDIA-Linux/libnvidia-opencl.so.#VERSION#                           #LIBDIR#
 NVIDIA-Linux/nvidia.icd                                  etc/OpenCL/vendors
