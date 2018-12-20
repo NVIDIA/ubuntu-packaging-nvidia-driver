@@ -6,7 +6,7 @@ After=syslog.target
 Type=forking
 PIDFile=/var/run/nvidia-persistenced/nvidia-persistenced.pid
 Restart=always
-ExecStart=/usr/sbin/nvidia-persistenced --verbose
+ExecStart=/usr/bin/nvidia-persistenced --verbose
 ExecStopPost=/bin/rm -rf /var/run/nvidia-persistenced/*
 TimeoutSec=300
 
