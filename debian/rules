@@ -49,6 +49,10 @@ ifneq ($(DIAGNOSTIC),1)
 diagnostic := \#
 endif
 
+ifneq ($(GRID),1)
+grid := \#
+endif
+
 
 comma		 = ,
 xorg_depends	 = $(foreach abi, $(XORG_ABI_LIST), xorg-video-abi-$(abi) |)
@@ -94,10 +98,14 @@ LICENSE.txt: unpack-stamp
 
 # Compare the license in debian/copyright with the LICENSE shipped in the archive.
 compare-copyright-license: LICENSE.txt
+ifneq ($(GRID),1)
 	sed -e '1,/^License: NVIDIA-graphics-drivers/d; 1,/^License: NVIDIA-graphics-drivers$$/d; /^$$\|^Comment:$$/,$$d; /^ \.$$/d' debian/copyright > copyright.tmp
 	sed -e '/^ \.$$/d' LICENSE.txt > LICENSE.tmp
 	diff -w copyright.tmp LICENSE.tmp
 	rm -f copyright.tmp LICENSE.tmp
+else
+	cp -f LICENSE.txt debian/copyright
+endif
 
 %:
 	dh $@
@@ -202,6 +210,7 @@ regen-from-templates:
 			-e "s|#MODULENAME#|$(version)|g" \
 			-e "s|#DEB_HOST_MULTIARCH#|$(DEB_HOST_MULTIARCH)|g" \
 			-e "s|#DIAGNOSTIC#|$(diagnostic)|g" \
+			-e "s|#GRID#|$(grid)|g" \
 			$$i > $$dest;      \
 	done
 

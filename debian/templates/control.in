@@ -357,6 +357,23 @@ Description: NVENC Video Encoding runtime library
 #DIAGNOSTIC#Description: NVIDIA driver diagnostics utilities
 #DIAGNOSTIC# NVIDIA driver diagnostics utilities
 
+#GRID#Package: libnvidia-grid-#FLAVOUR#
+#GRID#Architecture: amd64 ppc64el
+#GRID#Depends:
+#GRID# ${misc:Depends},
+#GRID# nvidia-driver-#FLAVOUR# (= ${binary:Version})
+#GRID#Conflicts:
+#GRID# nvidia-current-grid,
+#GRID# libnvidia-grid
+#GRID#Provides:
+#GRID# nvidia-current-grid,
+#GRID# libnvidia-grid
+#GRID#Replaces:
+#GRID# nvidia-current-grid, 
+#GRID# libnvidia-grid
+#GRID#Description: NVIDIA driver GRID utilities
+#GRID# NVIDIA driver GRID utilities
+
 Package: nvidia-384
 Architecture: i386 amd64 armhf ppc64el
 Depends: nvidia-driver-#FLAVOUR#
