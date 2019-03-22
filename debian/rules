@@ -149,6 +149,11 @@ endif
 	mkdir -p $(CURDIR)/debian/nvidia-dkms-$(version_major)/lib/systemd
 	dh_systemd_enable --name=nvidia-fallback
 
+ifeq ($(GRID),1)
+	mkdir -p $(CURDIR)/debian/nvidia-grid-utils-$(version_major)/lib/systemd
+	dh_systemd_enable --name=nvidia-gridd
+endif
+
 	dh_install
 
 override_dh_installinit:
