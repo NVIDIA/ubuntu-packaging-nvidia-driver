@@ -1,0 +1,4 @@
+NVIDIA-Linux/nvidia-gridd                           usr/bin
+NVIDIA-Linux/gridd.conf.template                    etc/nvidia
+NVIDIA-Linux/nvidia-gridd.1.gz                      usr/share/man/man1
+NVIDIA-Linux/grid-third-party-licenses.txt          usr/share/nvidia
