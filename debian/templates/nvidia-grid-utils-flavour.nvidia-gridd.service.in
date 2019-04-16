@@ -12,6 +12,7 @@ Description=NVIDIA Grid Daemon
 Wants=syslog.target
 
 [Service]
+Environment="LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu/nvidia/gridd"
 Type=forking
 ExecStart=/usr/bin/nvidia-gridd
 ExecStopPost=/bin/rm -rf /var/run/nvidia-gridd
