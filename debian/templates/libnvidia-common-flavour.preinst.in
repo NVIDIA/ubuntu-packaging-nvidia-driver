@@ -1,0 +1,11 @@
+#! /bin/sh
+
+set -e
+
+echo "Checking for existing driver runfile install"
+if [[ ! $(which nvidia-uninstall 2&>/dev/null) ]]; then
+    echo "Removing existing driver runfile install"
+    nvidia-uninstall -s
+fi
+
+exit 0
