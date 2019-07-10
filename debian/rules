@@ -364,6 +364,8 @@ ifeq ($(DEB_HOST_ARCH),amd64)
 		$(dirname)/nvidia_icd.json
 endif
 
+	mv -f $(dirname)/nvidia-drm-outputclass.conf $(dirname)/10-nvidia.conf
+
 	# Get around Xen checks
 	mv $(dirname)/kernel/nvidia/nv.c $(dirname)/kernel/nvidia/nv1.c
 	mv $(dirname)/kernel/common/inc/nv-linux.h $(dirname)/kernel/common/inc/nv-linux1.h
