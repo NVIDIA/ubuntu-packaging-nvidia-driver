@@ -360,8 +360,8 @@ endif
 ifeq ($(DEB_HOST_ARCH),amd64)
 	# This is for non-GLVND LibGL libraries
 	# Replace with libGLX_nvidia.so.0 when the transition to GLVND is complete
-	sed 's/__NV_VK_ICD__/libGL.so.1/g'  $(dirname)/nvidia_icd.json.template > \
-		$(dirname)/nvidia_icd.json
+	# sed 's/__NV_VK_ICD__/libGL.so.1/g'  $(dirname)/nvidia_icd.json.template > \
+	#	$(dirname)/nvidia_icd.json
 endif
 
 	mv -f $(dirname)/nvidia-drm-outputclass.conf $(dirname)/10-nvidia.conf
