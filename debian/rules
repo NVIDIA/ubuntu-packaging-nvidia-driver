@@ -33,6 +33,7 @@ endif
 
 ifeq ($(DEB_HOST_ARCH),ppc64el)
 ppc_excluded         := \#
+i386_only            := \#
 else
 ppc_excluded         :=
 endif
