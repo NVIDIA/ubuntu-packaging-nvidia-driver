@@ -521,8 +521,8 @@ endif
 ifneq ($(DEB_HOST_ARCH),armhf)
 ifneq ($(DEB_HOST_ARCH),ppc64el)
 	# Remove the non-GLVND libGL and libEGL libraries
-	find $(CURDIR)/debian/$(PKG_driver) -name "libGL.so.1.*" | xargs /bin/rm -f
-	find $(CURDIR)/debian/$(PKG_driver) -name "libEGL.so.1.*" | xargs /bin/rm -f
+	find $(CURDIR)/debian/$(PKG_driver) -name "libGL.so.$(PKG_flavour)" | xargs /bin/rm -f
+	find $(CURDIR)/debian/$(PKG_driver) -name "libEGL.so.$(PKG_flavour)" | xargs /bin/rm -f
 endif
 endif
 
