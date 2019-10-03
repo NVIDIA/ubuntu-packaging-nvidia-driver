@@ -46,6 +46,14 @@ DKMS_disabled_modules :=
 amd64_only := \#
 endif
 
+ifeq ($(DEB_HOST_ARCH),arm64)
+arm_excluded         := \#
+i386_only            := \#
+amd64_only           := \#
+else
+arm_excluded         :=
+endif
+
 ifneq ($(DIAGNOSTIC),1)
 diagnostic := \#
 endif
@@ -143,6 +151,11 @@ ifeq ($(DEB_HOST_ARCH),ppc64el)
 	cat $(CURDIR)/debian/dkms.conf.fragment >> $(CURDIR)/debian/dkms.conf
 endif
 
+ifeq ($(DEB_HOST_ARCH),arm64)
+	# Make sure the UVM module is built
+	cat $(CURDIR)/debian/dkms.conf.fragment >> $(CURDIR)/debian/dkms.conf
+endif
+
 	dh_install -p nvidia-compute-utils-$(version_major)
 	mkdir -p $(CURDIR)/debian/nvidia-compute-utils-$(version_major)/lib/systemd
 	dh_systemd_enable --name=nvidia-persistenced
@@ -166,6 +179,9 @@ override_dh_installinit:
 	dh_installinit --noscripts
 
 remove-stack-markings:
+ifeq ($(DEB_HOST_ARCH),arm64)
+	$(info Skipping execstack since aarch64 is not supported)
+else
 	# Disable the stack markings of binaries for security reasons.
 	# See (LP: #409456)
 	find NVIDIA-Linux/ -name *.so* | xargs -n1 execstack -c
@@ -176,6 +192,7 @@ remove-stack-markings:
 	execstack -c NVIDIA-Linux/nvidia-xconfig || true
 	execstack -c NVIDIA-Linux/nvidia-smi || true
 	execstack -c NVIDIA-Linux/nvidia-persistenced || true
+endif
 
 override_dh_shlibdeps:
 	LD_LIBRARY_PATH=/$(libdir):$(LD_LIBRARY_PATH) dh_shlibdeps
