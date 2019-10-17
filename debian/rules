@@ -339,6 +339,12 @@ override_dh_auto_configure:
 
 ifeq ($(DEB_HOST_ARCH),amd64)
 	sh $(filename_x86) --extract-only --target $(dirname_x86)
+	if [ -d "$(dirname_x86)/32" ] ; \
+	then \
+		mv -f $(dirname_x86)/32 $(dirname_x86)/.32 ; \
+		rm -rf $(dirname_x86)/* ; \
+		mv -f $(dirname_x86)/.32/* $(dirname_x86) ; \
+	fi;
 endif
 
 	# Use copyright from runfile
