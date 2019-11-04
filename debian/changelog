@@ -1,3 +1,15 @@
+nvidia-graphics-drivers-445 (445.00-0ubuntu1) bionic; urgency=medium
+
+  * Start work on 445.
+
+ -- Andy Dick <adick@nvidia.com>  Mon, 04 Nov 2019 15:35:52 -0800
+
+nvidia-graphics-drivers-440 (440.00-0ubuntu1) bionic; urgency=medium
+
+  * Start work on 440.
+
+ -- Kevin Mittman <kmittman@nvidia.com>  Wed, 21 Aug 2019 15:49:57 -0700
+
 nvidia-graphics-drivers-418 (418.00-0ubuntu1) bionic; urgency=medium
 
   * Start work on 418.
