@@ -35,6 +35,9 @@
 #PKGLIBDIR32#/libnvidia-ptxjitcompiler.so.#VERSION# #PKGLIBDIR32#/libnvidia-ptxjitcompiler.so.1
 #PKGLIBDIR32#/libnvidia-ptxjitcompiler.so.1 #PKGLIBDIR32#/libnvidia-ptxjitcompiler.so
 
+#PKGLIBDIR32#/libnvidia-allocator.so.#VERSION# #PKGLIBDIR32#/libnvidia-allocator.so.1
+#PKGLIBDIR32#/libnvidia-allocator.so.1 #PKGLIBDIR32#/libnvidia-allocator.so
+
 #PKGVDPAUDIR32#/libvdpau_nvidia.so.#VERSION# #PKGVDPAUDIR32#/libvdpau_nvidia.so.1
 #PKGVDPAUDIR32#/libvdpau_nvidia.so.1 #PKGVDPAUDIR32#/libvdpau_nvidia.so
 
