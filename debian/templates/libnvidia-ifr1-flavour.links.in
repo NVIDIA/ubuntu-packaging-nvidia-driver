@@ -1,2 +1,4 @@
-#LIBDIR#/libnvidia-ifr.so.#VERSION#        #LIBDIR#/libnvidia-ifr.so.1
-#LIBDIR#/libnvidia-ifr.so.1                #LIBDIR#/libnvidia-ifr.so
+#ARM_EXCLUDED##LIBDIR#/libnvidia-ifr.so.#VERSION#                                             #LIBDIR#/libnvidia-ifr.so.1
+#ARM_EXCLUDED##LIBDIR#/libnvidia-ifr.so.1                                                     #LIBDIR#/libnvidia-ifr.so
+#ARM_EXCLUDED##LIBDIR#/libnvidia-ifr.so.#VERSION#                                             #LIBDIR#/libnvidia-ifr.so.1
+#ARM_EXCLUDED##LIBDIR#/libnvidia-ifr.so.1                                                     #LIBDIR#/libnvidia-ifr.so

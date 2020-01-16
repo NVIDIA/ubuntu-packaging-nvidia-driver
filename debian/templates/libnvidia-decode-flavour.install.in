@@ -1,3 +1,3 @@
 NVIDIA-Linux/libvdpau_nvidia.so.#VERSION#                            #LIBDIR#/vdpau
-#ARM_EXCLUDED#NVIDIA-Linux/libnvcuvid.so.#VERSION#                                 #LIBDIR#
-#ARM_EXCLUDED#NVIDIA-Linux/libnvidia-opticalflow.so.#VERSION#                      #LIBDIR#
+NVIDIA-Linux/libnvcuvid.so.#VERSION#                                 #LIBDIR#
+NVIDIA-Linux/libnvidia-opticalflow.so.#VERSION#                      #LIBDIR#
