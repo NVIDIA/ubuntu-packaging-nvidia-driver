@@ -68,3 +68,5 @@
 #PKGLIBDIR#/libnvidia-egl-wayland.so.1.* #PKGLIBDIR#/libnvidia-egl-wayland.so.1
 
 #PPC_EXCLUDED##PKGLIBDIR#/libnvoptix.so.#VERSION# #PKGLIBDIR#/libnvoptix.so.1
+
+#PPC_EXCLUDED##PKGLIBDIR#/libnvidia-ngx.so.#VERSION# #PKGLIBDIR#/libnvidia-ngx.so.1
