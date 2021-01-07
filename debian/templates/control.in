@@ -87,7 +87,8 @@ Replaces:
 Provides:
  nvidia-dkms-kernel
 Depends:
- dkms, nvidia-kernel-source-#FLAVOUR#, nvidia-kernel-common-#FLAVOUR#,
+ dkms, nvidia-kernel-source-#FLAVOUR#,
+ nvidia-kernel-common-#FLAVOUR# (= ${binary:Version}),
  ${misc:Depends}, ${shlibs:Depends}
 Description: NVIDIA DKMS package
  This package builds the NVIDIA kernel module needed by the userspace
