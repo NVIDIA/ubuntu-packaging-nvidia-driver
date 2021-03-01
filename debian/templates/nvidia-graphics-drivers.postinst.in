@@ -42,7 +42,7 @@ esac
 _is_kernel_name_correct() {
     CORRECT="no"
     KERNEL_NAME=$1
-    
+
     for kernel in /boot/config-*; do
         [ -f "$kernel" ] || continue
         KERNEL=${kernel#*-}
@@ -62,7 +62,7 @@ _get_newest_kernel_debian() {
     NEWEST_KERNEL=
     NEWEST_VERSION=
     NEWEST_ABI=
-    
+
     for kernel in /boot/config-*; do
         [ -f "$kernel" ] || continue
         KERNEL=${kernel#*-}
@@ -77,7 +77,7 @@ _get_newest_kernel_debian() {
             # Get the biggest version
             COMPARE_TO="$NEWEST_VERSION-$NEWEST_ABI"
         fi
-            
+
         # if $kernel is greater than $COMPARE_TO
         if [ `dpkg --compare-versions "$KERNEL_VERSION-$ABI" gt "$COMPARE_TO" && echo "yes" || \
               echo "no"` = "yes" ]; then
@@ -145,6 +145,10 @@ case "$1" in
         #
         update-alternatives --force \
             --install #SYSCONFDIR#/ld.so.conf.d/#DEB_HOST_MULTIARCH#_GL.conf #DEB_HOST_MULTIARCH#_gl_conf #LDSOCONF# #ALTPRIORITY# \
+            --slave #MANDIR#/nvidia-xconfig.1.gz #DEB_HOST_MULTIARCH#_man_nvidiaxconfig.gz #MANDIR#/alt-#DRIVERNAME#-xconfig.1.gz \
+            --slave #MANDIR#/nvidia-smi.1.gz #DEB_HOST_MULTIARCH#_nvidia-smi.1.gz #MANDIR#/alt-#DRIVERNAME#-smi.1.gz \
+            --slave #MANDIR#/nvidia-cuda-mps-control.1.gz #DEB_HOST_MULTIARCH#_nvidia-cuda-mps-control.1.gz #MANDIR#/alt-#DRIVERNAME#-cuda-mps-control.1.gz \
+            --slave #MANDIR#/nvidia-persistenced.1.gz #DEB_HOST_MULTIARCH#_man_persistenced.gz #MANDIR#/alt-#DRIVERNAME#-persistenced.1.gz \
             --slave #BINDIR#/nvidia-smi #DEB_HOST_MULTIARCH#_nvidia_smi #PKGBINDIR#/nvidia-smi \
             --slave #BINDIR#/nvidia-xconfig #DEB_HOST_MULTIARCH#_nvidia_xconfig #PKGBINDIR#/nvidia-xconfig \
             --slave #BINDIR#/nvidia-bug-report.sh #DEB_HOST_MULTIARCH#_nvidia_bug_report #PKGBINDIR#/nvidia-bug-report.sh \
@@ -155,6 +159,7 @@ case "$1" in
             --slave #NVIDIASHARE#/nvidia-application-profiles-#VERSION#-rc #DEB_HOST_MULTIARCH#_nvidia_app_profile #PKGDATADIR#/nvidia-application-profiles-#VERSION#-rc \
             --slave #NVIDIASHARE#/nvidia-application-profiles-#VERSION#-key-documentation #DEB_HOST_MULTIARCH#_nvidia_app_profile_keys #PKGDATADIR#/nvidia-application-profiles-#VERSION#-key-documentation \
             --slave #LIBDIR#/xorg/modules/drivers/nvidia_drv.so #DEB_HOST_MULTIARCH#_nvidia_drv #PKGDRIVERSDIR#/nvidia_drv.so \
+            --slave #SYSCONFDIR#/modprobe.d/nvidia-graphics-drivers.conf #DEB_HOST_MULTIARCH#_nvidia_modconf #PKGLIBCONFDIR#/modprobe.conf \
             --slave #XORGEXTRA# #DEB_HOST_MULTIARCH#_xorg_extra_modules #NVIDIAEXTENSION# \
             --slave #VDPAUDIR#/libvdpau_nvidia.so.1 #DEB_HOST_MULTIARCH#_libvdpau_nvidia.so.1 #PKGVDPAUDIR#/libvdpau_nvidia.so.1 \
             --slave #LIBDIR#/libvdpau_nvidia.so #DEB_HOST_MULTIARCH#_libvdpau_nvidia.so #PKGVDPAUDIR#/libvdpau_nvidia.so \
@@ -172,12 +177,15 @@ case "$1" in
         # is still blacklisted
         update-alternatives --force \
             --install #SYSCONFDIR#/ld.so.conf.d/#DEB_HOST_MULTIARCH#_GL.conf #DEB_HOST_MULTIARCH#_gl_conf #PMLDSOCONF# #PMALTPRIORITY# \
+            --slave #MANDIR#/nvidia-xconfig.1.gz #DEB_HOST_MULTIARCH#_man_nvidiaxconfig.gz #MANDIR#/alt-#DRIVERNAME#-xconfig.1.gz \
+            --slave #MANDIR#/nvidia-smi.1.gz #DEB_HOST_MULTIARCH#_nvidia-smi.1.gz #MANDIR#/alt-#DRIVERNAME#-smi.1.gz \
             --slave #BINDIR#/nvidia-smi #DEB_HOST_MULTIARCH#_nvidia_smi #PKGBINDIR#/nvidia-smi \
             --slave #BINDIR#/nvidia-xconfig #DEB_HOST_MULTIARCH#_nvidia_xconfig #PKGBINDIR#/nvidia-xconfig \
             --slave #BINDIR#/nvidia-bug-report.sh #DEB_HOST_MULTIARCH#_nvidia_bug_report #PKGBINDIR#/nvidia-bug-report.sh \
             --slave #BINDIR#/nvidia-debugdump #DEB_HOST_MULTIARCH#_nvidia-debugdump #PKGBINDIR#/nvidia-debugdump \
             --slave #NVIDIASHARE#/nvidia-application-profiles-#VERSION#-rc #DEB_HOST_MULTIARCH#_nvidia_app_profile #PKGDATADIR#/nvidia-application-profiles-#VERSION#-rc \
-            --slave #NVIDIASHARE#/nvidia-application-profiles-#VERSION#-key-documentation #DEB_HOST_MULTIARCH#_nvidia_app_profile_keys #PKGDATADIR#/nvidia-application-profiles-#VERSION#-key-documentation
+            --slave #NVIDIASHARE#/nvidia-application-profiles-#VERSION#-key-documentation #DEB_HOST_MULTIARCH#_nvidia_app_profile_keys #PKGDATADIR#/nvidia-application-profiles-#VERSION#-key-documentation \
+            --slave #SYSCONFDIR#/modprobe.d/nvidia-graphics-drivers.conf #DEB_HOST_MULTIARCH#_nvidia_modconf #PKGLIBCONFDIR#/modprobe.conf
         update-alternatives --force \
             --install #SYSCONFDIR#/ld.so.conf.d/#DEB_HOST_MULTIARCH#_EGL.conf #DEB_HOST_MULTIARCH#_egl_conf #PMLDSOCONF# #PMALTPRIORITY#
 
@@ -211,13 +219,16 @@ case "$1" in
         CURRENT_KERNEL=$(uname -r)
         NEWEST_KERNEL=$(get_newest_kernel "$KERNELS")
 
-        # Update initramfs so that the blacklist ends up in the initramfs
-        if [ -x /usr/sbin/update-initramfs ]; then
-            /usr/sbin/update-initramfs -u
+        ALTERNATIVE=$(readlink /etc/alternatives/#DEB_HOST_MULTIARCH#_gl_conf)
+        if [ "$ALTERNATIVE" = "#LDSOCONF#" ]; then
+            # Update initramfs so that the blacklist ends up in the initramfs
+            if [ -x /usr/sbin/update-initramfs ]; then
+                /usr/sbin/update-initramfs -u
 
-            if [ -n "$NEWEST_KERNEL" ] && [ ${CURRENT_KERNEL} != ${NEWEST_KERNEL} ]; then
-                # This can fail when dealing with a chroot see LP: #556653
-                /usr/sbin/update-initramfs -u -k $CURRENT_KERNEL
+                if [ -n "$NEWEST_KERNEL" ] && [ ${CURRENT_KERNEL} != ${NEWEST_KERNEL} ]; then
+                    # This can fail when dealing with a chroot see LP: #556653
+                    /usr/sbin/update-initramfs -u -k $CURRENT_KERNEL
+                fi
             fi
         fi
 
@@ -276,7 +287,7 @@ EOF
             /bin/systemctl enable $INIT_SCRIPT_NAME
         else
             # Build the kernel module
-            /usr/lib/dkms/common.postinst nvidia $CVERSION /usr/share/$PACKAGE_NAME $ARCH $2
+            /usr/lib/dkms/common.postinst $PACKAGE_NAME $CVERSION /usr/share/$PACKAGE_NAME $ARCH $2
             exit $?
         fi
         ;;

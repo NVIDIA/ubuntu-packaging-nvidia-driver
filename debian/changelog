@@ -1,11 +1,5 @@
-nvidia-graphics-drivers-430 (430.50-0ubuntu0~0.16.04.2) xenial; urgency=medium
+nvidia-graphics-drivers-396 (396.01-0ubuntu5) bionic; urgency=medium
 
-  * Fix ld.so.conf file names and paths.
+  Start work on 396
 
- -- Alberto Milone <alberto.milone@canonical.com>  Tue, 22 Oct 2019 15:32:14 +0200
-
-nvidia-graphics-drivers-430 (430.50-0ubuntu0~0.16.04.1) xenial; urgency=medium
-
-  * New upstream release. Initial backport for Xenial.
-
- -- Alberto Milone <alberto.milone@canonical.com>  Thu, 17 Oct 2019 16:25:58 +0200
+ -- Alberto Milone <alberto.milone@canonical.com>  Wed, 24 Jan 2018 11:56:33 -0800

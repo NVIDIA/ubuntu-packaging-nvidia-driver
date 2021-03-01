@@ -348,7 +348,7 @@ ifeq ($(DEB_HOST_ARCH),amd64)
 endif
 
 	# Use copyright from runfile
-	mv $(dirname)/LICENSE $(CURDIR)/debian/copyright 
+	mv $(dirname)/LICENSE $(CURDIR)/debian/copyright
 
 ifneq ($(DEB_HOST_ARCH),armhf)
 	# Temporarily rename libnvidia-opencl so that the .install file does
@@ -424,9 +424,6 @@ ifeq ($(DEB_HOST_ARCH),ppc64el)
 	# Make sure the UVM module is built
 	cat $(CURDIR)/debian/dkms.conf.fragment >> $(CURDIR)/debian/dkms_nvidia/dkms.conf
 endif
-
-	# Create nvidia_icd.json with GLVND option
-	sed -e 's/__NV_VK_ICD__/libGLX_nvidia.so.0/g' $(dirname)/nvidia_icd.json.template > $(dirname)/nvidia_icd.json
 
 override_dh_install: gen-abi-substvars
 	dh_install -p$(PKG_driver)
