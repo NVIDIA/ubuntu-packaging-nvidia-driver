@@ -2,6 +2,7 @@
 
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
+export NO_DOC_PKG_MANGLE=1
 
 include /usr/share/dpkg/architecture.mk
 include /usr/share/dpkg/pkg-info.mk
@@ -12,7 +13,7 @@ XORG_BOUND		?=
 
 version			 = $(DEB_VERSION_UPSTREAM)
 NVIDIA_RELEASE   = $(version)
-version_major		 = $(firstword $(subst ., ,$(version)))
+version_major	 = $(firstword $(subst ., ,$(version)))
 
 # system libdir
 libdir			?= usr/lib/$(DEB_HOST_MULTIARCH)
@@ -25,33 +26,47 @@ xorg_driver      := xserver-xorg-video-nvidia-$(flavour)
 pkg_module       := nvidia
 pkg_kernel       := nvidia-kernel-$(flavour)
 
-ifeq ($(DEB_HOST_ARCH),armhf)
-arm_excluded         := \#
-else
-arm_excluded         :=
-endif
-
-ifeq ($(DEB_HOST_ARCH),ppc64el)
-ppc_excluded         := \#
-i386_only            := \#
-else
-ppc_excluded         :=
-endif
-
 ifeq ($(DEB_HOST_ARCH),amd64)
 DKMS_disabled_modules :=
 amd64_only :=
+amd64_excluded := \#
 else
-DKMS_disabled_modules :=
 amd64_only := \#
+amd64_excluded :=
+endif
+
+ifeq ($(DEB_HOST_ARCH),i386)
+DKMS_disabled_modules := nvidia-uvm
+i386_excluded := \#
+else
+i386_only := \#
+i386_excluded :=
+endif
+
+ifeq ($(DEB_HOST_ARCH),armhf)
+DKMS_disabled_modules := nvidia-uvm
+armhf_only :=
+armhf_excluded := \#
+else
+armhf_only := \#
+armhf_excluded :=
+endif
+
+ifeq ($(DEB_HOST_ARCH),ppc64el)
+DKMS_disabled_modules :=
+ppc64el_only :=
+ppc64el_excluded := \#
+else
+ppc64el_only := \#
+ppc64el_excluded :=
 endif
 
 ifeq ($(DEB_HOST_ARCH),arm64)
-arm_excluded         := \#
-i386_only            := \#
-amd64_only           := \#
+arm64_only             :=
+arm64_excluded         := \#
 else
-arm_excluded         :=
+arm64_only             := \#
+arm64_excluded         :=
 endif
 
 ifneq ($(DIAGNOSTIC),1)
@@ -61,7 +76,6 @@ endif
 ifneq ($(GRID),1)
 grid := \#
 endif
-
 
 comma		 = ,
 xorg_depends	 = $(foreach abi, $(XORG_ABI_LIST), xorg-video-abi-$(abi) |)
@@ -88,19 +102,6 @@ unpack-stamp: NVIDIA-Linux-$(DEB_HOST_ARCH)
 	ls -al
 	touch $@
 
-generate-nvidia-icd-json:
-ifneq ($(DEB_HOST_ARCH),armhf)
-	# This is for GLVND LibGL libraries
-	sed 's/__NV_VK_ICD__/libGLX_nvidia.so.0/g'  NVIDIA-Linux/nvidia_icd.json.template > \
-		NVIDIA-Linux/nvidia_icd.json
-	# non-GLVND only
-	mkdir NVIDIA-Linux/nonglvnd || true
-	sed 's/__NV_VK_ICD__/libGL.so.1/g'  NVIDIA-Linux/nvidia_icd.json.template > \
-        NVIDIA-Linux/nonglvnd/nvidia_icd.json
-else
-	echo "$@ not required on $(DEB_HOST_ARCH)"
-endif
-
 # Reformat the LICENSE to the format needed for debian/copyright.
 LICENSE.txt: unpack-stamp
 	sed -e 's/^ *//; s/ *$$//; s/^$$/./; s/^/ /;' NVIDIA-Linux/LICENSE > $@
@@ -116,19 +117,25 @@ else
 	cp -f LICENSE.txt debian/copyright
 endif
 
+build-device-create:
+	rm -f $(CURDIR)/debian/device-create/ub-device-create
+	cd $(CURDIR)/debian/device-create/ && $(MAKE) all || exit 1
+	@echo "ub-device-create built"
+
 %:
 	dh $@
 
 override_dh_auto_clean:
 	rm -fr .pc
 	rm -f NVIDIA-Linux
-	rm -fr $(foreach a,$(ARCH_LIST),NVIDIA-Linux-$a $(NVIDIA_DIRNAME_$a))
+	rm -fr $(foreach a,$(ARCH_LIST),$a/NVIDIA-Linux-$a $a/$(NVIDIA_DIRNAME_$a))
 	rm -fr kernel-source-tree
 	rm -f nvidia.ids nv-kernel.ids nv-readme.ids pci.ids.nvidia*
 	rm -f LICENSE.txt LICENSE.tmp copyright.tmp
 	test ! -d debian/po || debconf-updatepo
 	rm -f debian/$(pkg_driver).substvars
 	rm -f debian/dkms.conf
+	rm -f debian/device-create/ub-device-create
 
 override_dh_clean: regen-from-templates
 	dh_clean
@@ -137,11 +144,14 @@ override_dh_clean: regen-from-templates
 
 override_dh_auto_configure: prepare regen-from-templates remove-stack-markings
 
-override_dh_install: generate-modaliases
+override_dh_compress:
+	dh_compress -Xsupported-gpus.json
+
+override_dh_install: generate-modaliases build-device-create
 	# Use our custom dkms.conf file
 	cp -f $(CURDIR)/debian/dkms_nvidia.conf $(CURDIR)/debian/dkms.conf
 
-ifeq ($(DEB_HOST_ARCH),amd64)
+ifeq (,$(findstring nvidia-uvm,$(DKMS_disabled_modules)))
 	# Make sure the UVM module is built
 	cat $(CURDIR)/debian/dkms.conf.fragment >> $(CURDIR)/debian/dkms.conf
 endif
@@ -159,14 +169,7 @@ endif
 	dh_install -p nvidia-compute-utils-$(version_major)
 	mkdir -p $(CURDIR)/debian/nvidia-compute-utils-$(version_major)/lib/systemd
 	dh_systemd_enable --name=nvidia-persistenced
-	dh_install -p nvidia-dkms-$(version_major)
-	mkdir -p $(CURDIR)/debian/nvidia-dkms-$(version_major)/lib/systemd
-	dh_systemd_enable --name=nvidia-fallback
-
-ifeq ($(GRID),1)
-	mkdir -p $(CURDIR)/debian/nvidia-grid-utils-$(version_major)/lib/systemd
-	dh_systemd_enable --name=nvidia-gridd
-endif
+	dh_install -p nvidia-kernel-common-$(version_major)
 
 ifeq ($(GRID),1)
 	mkdir -p $(CURDIR)/debian/nvidia-grid-utils-$(version_major)/lib/systemd
@@ -228,13 +231,21 @@ regen-from-templates:
 				 sed -e "s|\.in\$$||g" | \
 				 sed -e "s|flavour|$(flavour)|g"`; \
 		sed -e "s|#LIBDIR#|$(libdir)|g"         \
-			-e "s|#ARM_EXCLUDED#|$(arm_excluded)|g" \
-			-e "s|#PPC_EXCLUDED#|$(ppc_excluded)|g" \
+			-e "s|#ARMHF_ONLY#|$(armhf_only)|g" \
 			-e "s|#AMD64_ONLY#|$(amd64_only)|g" \
+			-e "s|#I386_ONLY#|$(i386_only)|g" \
+			-e "s|#PPC64EL_ONLY#|$(ppc64el_only)|g" \
+			-e "s|#ARM64_ONLY#|$(arm64_only)|g" \
+			-e "s|#ARMHF_EXCLUDED#|$(armhf_excluded)|g" \
+			-e "s|#AMD64_EXCLUDED#|$(amd64_excluded)|g" \
+			-e "s|#I386_EXCLUDED#|$(i386_excluded)|g" \
+			-e "s|#PPC64EL_EXCLUDED#|$(ppc64el_excluded)|g" \
+			-e "s|#ARM64_EXCLUDED#|$(arm64_excluded)|g" \
 			-e "s|#NVEXCLUDEMODULES#|$(DKMS_disabled_modules)|g" \
 			-e "s|#FLAVOUR#|$(flavour)|g" \
 			-e "s|#DRIVERNAME#|$(pkg_driver)|g" \
 			-e "s|#VERSION#|$(version)|g" \
+			-e "s|#DEBIAN_VERSION#|$(debian_version)|g" \
 			-e "s|#MODULENAME#|$(version)|g" \
 			-e "s|#DEB_HOST_MULTIARCH#|$(DEB_HOST_MULTIARCH)|g" \
 			-e "s|#DIAGNOSTIC#|$(diagnostic)|g" \
@@ -270,15 +281,14 @@ generate-modaliases:
 		NVIDIA-Linux/README.txt \
 		> $(CURDIR)/debian/$(pkg_meta).modaliases
 	# Take additional card ids from a text file
-	while read id sid; do \
-		if [ -z $$sid ]; then \
+	# Generate a modalias for each ID
+	@set -e -x ; \
+	while read line; do \
+		for id in $$line; do \
 			printf 'alias pci:v%08Xd%08Xsv*sd*bc03sc*i* %s %s\n' \
-			0x10de "0x$$id" "$(pkg_module)" "$(pkg_meta)" \
-		;else \
-			printf 'alias pci:v%08Xd%08Xsv*sd%08Xbc03sc*i* %s %s\n' \
-			0x10de "0x$$id" "0x$$sid" "$(pkg_module)" "$(pkg_meta)" \
-		;fi \
-	done <$(CURDIR)/debian/additional_card_ids >>$(CURDIR)/debian/$(pkg_meta).modaliases
+				0x10de "0x$$id" "$(pkg_module)" "$(pkg_meta)"; \
+		done; \
+	done < $(CURDIR)/debian/additional_card_ids >>$(CURDIR)/debian/$(pkg_meta).modaliases
 	dh_modaliases
 	rm -f $(CURDIR)/debian/$(pkg_meta).modaliases
 
