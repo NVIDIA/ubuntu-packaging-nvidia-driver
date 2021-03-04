@@ -1,5 +1,425 @@
-nvidia-graphics-drivers-450 (450.00-0ubuntu1) bionic; urgency=medium
+nvidia-graphics-drivers (460.00-0ubuntu1) focal; urgency=medium
 
-  * Start work on 450.
+  * Clean and rebuild commit history
 
- -- Andy Dick <adick@nvidia.com>  Tue, 25 Feb 2020 14:35:48 -0800
+ -- Kevin Mittman <kmittman@nvidia.com>  Tue, 23 Feb 2021 17:11:31 -0800
+
+nvidia-graphics-drivers (455.00-0ubuntu1) focal; urgency=medium
+
+  * Also need to keep libnvidia-common at version equivalence.
+
+ -- Andy Dick <adick@nvidia.com>  Tue, 12 Jan 2021 10:08:23 -0800
+
+nvidia-graphics-drivers (455.00-0ubuntu1) focal; urgency=medium
+
+  * Add explicit nvidia-kernel-common dependency to aid with upgrades.
+
+ -- Andy Dick <adick@nvidia.com>  Thu, 7 Jan 2021 10:35:21 -0800
+
+nvidia-graphics-drivers (450.00-0ubuntu1) focal; urgency=medium
+
+  * Remove docs that don't exist in .run file.
+
+ -- Andy Dick <adick@nvidia.com>  Wed, 9 Sep 2020 13:34:26 -0700
+
+nvidia-graphics-drivers (450.00-0ubuntu1) focal; urgency=medium
+
+  * Add missing vulkan icd for sbsa drivers.
+
+ -- Andy Dick <adick@nvidia.com>  Wed, 15 Jul 2020 14:53:25 -0700
+
+nvidia-graphics-drivers (450.00-0ubuntu1) focal; urgency=medium
+
+  * Delete duplicate nvidia-uninstall logic
+
+ -- Kevin Mittman <kmittman@nvidia.com>  Wed, 17 Jun 2020 15:20:48 -0700
+
+nvidia-graphics-drivers (450.00-0ubuntu1) focal; urgency=medium
+
+  * Need to build libnvidia-extra for arm and power architectures
+
+ -- Andy Dick <adick@nvidia.com>  Fri, 12 Jun 2020 11:24:25 -0700
+
+nvidia-graphics-drivers (450.00-0ubuntu1) focal; urgency=medium
+
+  * Remove unnecessary 440 files.
+
+ -- Andy Dick <adick@nvidia.com>  Fri, 27 Mar 2020 16:20:23 -0700
+
+nvidia-graphics-drivers (450.00-0ubuntu1) focal; urgency=medium
+
+  * Further dev branch fixup
+
+ -- Andy Dick <adick@nvidia.com>  Thu, 26 Mar 2020 16:30:02 -0700
+
+nvidia-graphics-drivers (445.00-0ubuntu1) bionic; urgency=medium
+
+  * Realign nvidia-FLAVOUR directories to upstream.
+
+ -- Andy Dick <adick@nvidia.com>  Thu, 5 Mar 2020 11:47:49 -0800
+
+nvidia-graphics-drivers (445.00-0ubuntu1) bionic; urgency=medium
+
+  * Add nvidia-persistenced to aarch64 driver packaging.
+
+ -- Andy Dick <adick@nvidia.com>  Fri, 28 Feb 2020 14:50:11 -0800
+
+nvidia-graphics-drivers (445.00-0ubuntu1) bionic; urgency=medium
+
+  * Add libnvidia-ngx
+
+ -- Andy Dick <adick@nvidia.com>  Wed, 26 Feb 2020 15:26:28 -0800
+
+nvidia-graphics-drivers (445.00-0ubuntu1) bionic; urgency=medium
+
+  * libnvidia-fatbinaryloader is no more in 450
+
+ -- Andy Dick <adick@nvidia.com>  Wed, 26 Feb 2020 14:12:53 -0800
+
+nvidia-graphics-drivers (445.00-0ubuntu1) bionic; urgency=medium
+
+  * Start work on 450
+
+ -- Andy Dick <adick@nvidia.com>  Tue, 25 Feb 2020 14:38:39 -0800
+
+nvidia-graphics-drivers (445.00-0ubuntu1) bionic; urgency=medium
+
+  * Include libnvcuvid, libnvidia-encode, and libnvidia-opticalflow on arm.
+    - Don't create symlinks for libnvidia-fbc or libnvidia-ifr.
+
+ -- Andy Dick <adick@nvidia.com>  Thu, 16 Jan 2020 15:22:43 -0800
+
+nvidia-graphics-drivers (445.00-0ubuntu1) bionic; urgency=medium
+
+  * Drop do-not-call-pci_save_state
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Mon, 9 Dec 2019 16:06:31 -0800
+
+nvidia-graphics-drivers (445.00-0ubuntu1) bionic; urgency=medium
+
+  * Add libnvidia-allocator.so
+
+ -- Andy Dick <adick@nvidia.com>  Thu, 14 Nov 2019 15:18:31 -0800
+
+nvidia-graphics-drivers (445.00-0ubuntu1) bionic; urgency=medium
+
+  * Start work on 445
+
+ -- Andy Dick <adick@nvidia.com>  Mon, 4 Nov 2019 15:37:07 -0800
+
+nvidia-graphics-drivers (440.00-0ubuntu1) bionic; urgency=medium
+
+  * First pass at enabling aarch64 driver packaging support for 18.04
+
+ -- Andy Dick <adick@nvidia.com>  Thu, 3 Oct 2019 13:32:00 -0700
+
+nvidia-graphics-drivers (440.00-0ubuntu1) bionic; urgency=medium
+
+  * Add arm64 arch for driver packages
+
+ -- Andy Dick <adick@nvidia.com>  Thu, 3 Oct 2019 10:32:26 -0700
+
+nvidia-graphics-drivers (440.00-0ubuntu1) bionic; urgency=medium
+
+  * Remove AMD64_ONLY blobs for i386 support from upstream.
+
+ -- Andy Dick <adick@nvidia.com>  Tue, 10 Sep 2019 15:59:57 -0700
+
+nvidia-graphics-drivers (440.00-0ubuntu1) bionic; urgency=medium
+
+  * Need to ignore i386 files when packaging ppc64el. Need to have arch-specific extraction for runfile.
+
+ -- Andy Dick <adick@nvidia.com>  Wed, 4 Sep 2019 18:08:46 -0700
+
+nvidia-graphics-drivers (440.00-0ubuntu1) bionic; urgency=medium
+
+  * Add back flavour name to path to the xorg libraries
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Tue, 3 Sep 2019 13:50:09 -0700
+
+nvidia-graphics-drivers (440.00-0ubuntu1) bionic; urgency=medium
+
+  * Change 418 and 430 references to 440
+
+ -- Kevin Mittman <kmittman@nvidia.com>  Wed, 21 Aug 2019 16:21:21 -0700
+
+nvidia-graphics-drivers (440.00-0ubuntu1) bionic; urgency=medium
+
+  * Rename files 430 -> 440
+
+ -- Kevin Mittman <kmittman@nvidia.com>  Wed, 21 Aug 2019 16:13:37 -0700
+
+nvidia-graphics-drivers (430.00-0ubuntu1) bionic; urgency=medium
+
+  * Rename files 418 -> 430
+
+ -- Kevin Mittman <kmittman@nvidia.com>  Wed, 21 Aug 2019 15:47:15 -0700
+
+nvidia-graphics-drivers (430.00-0ubuntu1) bionic; urgency=medium
+
+  * Do not run generate-nvidia-icd-json
+    - No longer support non-GLVND template
+
+ -- Kevin Mittman <kmittman@nvidia.com>  Tue, 20 Aug 2019 17:31:34 -0700
+
+nvidia-graphics-drivers (430.00-0ubuntu1) bionic; urgency=medium
+
+  * Remove 410 transition packages
+
+ -- Kevin Mittman <kmittman@nvidia.com>  Tue, 20 Aug 2019 17:28:21 -0700
+
+nvidia-graphics-drivers (421.00-0ubuntu1) bionic; urgency=medium
+
+  * Don't fail if unable to run nvidia-uninstall
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Fri, 24 May 2019 11:18:37 -0700
+
+nvidia-graphics-drivers (421.00-0ubuntu1) bionic; urgency=medium
+
+  * Attempt to remove driver runfile installs
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Fri, 24 May 2019 10:11:32 -0700
+
+nvidia-graphics-drivers (421.00-0ubuntu1) bionic; urgency=medium
+
+  * Need to specify LD_LIBRARY_PATH for nvidia-gridd service
+
+ -- Andy Dick <adick@nvidia.com>  Tue, 16 Apr 2019 10:45:12 -0700
+
+nvidia-graphics-drivers (421.00-0ubuntu1) bionic; urgency=medium
+
+  * GRID Licensing relies on /var/lib/nvidia directory
+
+ -- Andy Dick <adick@nvidia.com>  Tue, 16 Apr 2019 10:34:18 -0700
+
+nvidia-graphics-drivers (421.00-0ubuntu1) bionic; urgency=medium
+
+  * Add nvidia-gridd systemd service
+
+ -- Andy Dick <adick@nvidia.com>  Fri, 22 Mar 2019 10:30:09 -0700
+
+nvidia-graphics-drivers (421.00-0ubuntu1) bionic; urgency=medium
+
+  * Add grid-utilities package
+
+ -- Andy Dick <adick@nvidia.com>  Thu, 21 Mar 2019 22:03:36 -0700
+
+nvidia-graphics-drivers (421.00-0ubuntu1) bionic; urgency=medium
+
+  * Add GRID driver packaging support
+
+ -- Andy Dick <adick@nvidia.com>  Mon, 18 Mar 2019 11:35:37 -0700
+
+nvidia-graphics-drivers (418.00-0ubuntu1) bionic; urgency=medium
+
+  * Add support for xserver-xorg-core-hwe-18.04
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Wed, 27 Feb 2019 13:32:49 -0800
+
+nvidia-graphics-drivers (418.00-0ubuntu1) bionic; urgency=medium
+
+  * Add dependency on xserver-xorg-input-all
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Thu, 21 Feb 2019 16:36:01 -0800
+
+nvidia-graphics-drivers (418.00-0ubuntu1) bionic; urgency=medium
+
+  * Move nvidia-persistenced back to /usr/bin
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Wed, 19 Dec 2018 19:36:31 -0800
+
+nvidia-graphics-drivers (418.00-0ubuntu1) bionic; urgency=medium
+
+  * Move opticalflow library from libnvidia-compute to libnvidia-decode
+
+ -- Kevin Mittman <kmittman@nvidia.com>  Mon, 17 Dec 2018 16:43:17 -0800
+
+nvidia-graphics-drivers (418.00-0ubuntu1) bionic; urgency=medium
+
+  * Update nvidia-persistenced to install to /usr/sbin
+
+ -- Andy Dick <adick@nvidia.com>  Mon, 10 Dec 2018 16:04:01 -0800
+
+nvidia-graphics-drivers (418.00-0ubuntu1) bionic; urgency=medium
+
+  * Fixup preinst scriptlet for dash
+
+ -- Andy Dick <adick@nvidia.com>  Fri, 7 Dec 2018 15:44:51 -0800
+
+nvidia-graphics-drivers (418.00-0ubuntu1) bionic; urgency=medium
+
+  * glxserver and nvidia_drv.so are also on ppc64el
+
+ -- Andy Dick <adick@nvidia.com>  Wed, 5 Dec 2018 17:14:54 -0800
+
+nvidia-graphics-drivers (418.00-0ubuntu1) bionic; urgency=medium
+
+  * nvidia.icd should be on ppc64el
+
+ -- Andy Dick <adick@nvidia.com>  Wed, 5 Dec 2018 17:12:42 -0800
+
+nvidia-graphics-drivers (418.00-0ubuntu1) bionic; urgency=medium
+
+  * libnvidia-cfg should be on both amd64 and ppc64el
+
+ -- Andy Dick <adick@nvidia.com>  Wed, 5 Dec 2018 17:10:03 -0800
+
+nvidia-graphics-drivers (418.00-0ubuntu1) bionic; urgency=medium
+
+  * Rename libnvidia-of.so to libnvidia-opticalflow.so
+
+ -- Kevin Mittman <kmittman@nvidia.com>  Tue, 27 Nov 2018 14:15:19 -0800
+
+nvidia-graphics-drivers (418.00-0ubuntu1) bionic; urgency=medium
+
+  * Automatically disable wayland for the login screen.
+    - org.gnome.SettingsDaemon.Color.desktop prevents wayland from falling back to X when wayland fails.
+
+ -- Andy Dick <adick@nvidia.com>  Tue, 27 Nov 2018 12:43:00 -0800
+
+nvidia-graphics-drivers (418.00-0ubuntu1) bionic; urgency=medium
+
+  * Add optical flow library libnvidia-of.so
+
+ -- Kevin Mittman <kmittman@nvidia.com>  Mon, 26 Nov 2018 15:21:18 -0800
+
+nvidia-graphics-drivers (418.00-0ubuntu1) bionic; urgency=medium
+
+  * Correct libglxserver_nvidia.so symlink location
+
+ -- Andy Dick <adick@nvidia.com>  Wed, 21 Nov 2018 13:53:27 -0800
+
+nvidia-graphics-drivers (418.00-0ubuntu1) bionic; urgency=medium
+
+  * Adding libraries now present in ppc64le runfile in 418
+
+ -- Andy Dick <adick@nvidia.com>  Wed, 14 Nov 2018 14:35:12 -0800
+
+nvidia-graphics-drivers (418.00-0ubuntu1) bionic; urgency=medium
+
+  * Start work on 418
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Wed, 31 Oct 2018 14:07:29 -0700
+
+nvidia-graphics-drivers (415.00-0ubuntu1) bionic; urgency=medium
+
+  * Update nvidia-persistenced init script for best practices.
+
+ -- Andy Dick <adick@nvidia.com>  Thu, 18 Oct 2018 14:54:46 -0700
+
+nvidia-graphics-drivers (415.00-0ubuntu1) bionic; urgency=medium
+
+  * Moved files out of tls directory
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Tue, 11 Sep 2018 14:29:38 -0700
+
+nvidia-graphics-drivers (415.00-0ubuntu1) bionic; urgency=medium
+
+  * Make libnvidia-egl.so wildcard greedy
+
+ -- Kevin Mittman <kmittman@nvidia.com>  Sun, 26 Aug 2018 18:25:20 -0700
+
+nvidia-graphics-drivers (415.00-0ubuntu1) bionic; urgency=medium
+
+  * Add libnvidia-rtcore and libnvidia-cbl
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Fri, 17 Aug 2018 11:49:28 -0700
+
+nvidia-graphics-drivers (415.00-0ubuntu1) bionic; urgency=medium
+
+  * Run nvidia-persistenced.service as root
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Wed, 8 Aug 2018 10:08:54 -0700
+
+nvidia-graphics-drivers (415.00-0ubuntu1) bionic; urgency=medium
+
+  * Need to bundle and build nvidia-uvm on ppc64el
+
+ -- Andy Dick <adick@nvidia.com>  Fri, 27 Jul 2018 11:05:29 -0700
+
+nvidia-graphics-drivers (415.00-0ubuntu1) bionic; urgency=medium
+
+  * Exclude libnvoptix.so for PPC
+
+ -- Kevin Mittman <kmittman@nvidia.com>  Wed, 25 Jul 2018 12:58:02 -0700
+
+nvidia-graphics-drivers (415.00-0ubuntu1) bionic; urgency=medium
+
+  * Add libnvoptix
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Mon, 23 Jul 2018 13:11:58 -0700
+
+nvidia-graphics-drivers (415.00-0ubuntu1) bionic; urgency=medium
+
+  * Add missing libnvidia-glvkspirv.so.#VERSION#
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Fri, 22 Jun 2018 10:41:15 -0700
+
+nvidia-graphics-drivers (415.00-0ubuntu1) bionic; urgency=medium
+
+  * Initial work to add ppc64el packaging
+
+ -- Andy Dick <adick@nvidia.com>  Fri, 1 Jun 2018 16:06:45 -0700
+
+nvidia-graphics-drivers (415.00-0ubuntu1) bionic; urgency=medium
+
+  * Increase nvidia-persistenced.service to 300s
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Fri, 1 Jun 2018 11:10:56 -0700
+
+nvidia-graphics-drivers (415.00-0ubuntu1) bionic; urgency=medium
+
+  * Switch to libglxserver_nvidia.so.
+
+ -- Andy Dick <adick@nvidia.com>  Wed, 25 Apr 2018 15:25:12 -0700
+
+nvidia-graphics-drivers (410.00-0ubuntu1) bionic; urgency=medium
+
+  * Add missing dispatcher dependencies.
+
+ -- Andy Dick <adick@nvidia.com>  Mon, 23 Apr 2018 16:43:02 -0700
+
+nvidia-graphics-drivers (410.00-0ubuntu1) bionic; urgency=medium
+
+  * Print message advising users to reboot and giving instructions on how to re-enable nouveau if necessary
+
+ -- Andy Dick <adick@nvidia.com>  Mon, 23 Apr 2018 15:03:41 -0700
+
+nvidia-graphics-drivers (410.00-0ubuntu1) bionic; urgency=medium
+
+  * Add alternate-install-present file
+    - Will alert users installing the runfile that debian driver packages are already installed.
+
+ -- Andy Dick <adick@nvidia.com>  Mon, 23 Apr 2018 14:54:23 -0700
+
+nvidia-graphics-drivers (410.00-0ubuntu1) bionic; urgency=medium
+
+  * Add libnvidia-diagnostic package
+
+ -- Andy Dick <adick@nvidia.com>  Thu, 12 Apr 2018 15:22:31 -0700
+
+nvidia-graphics-drivers (410.00-0ubuntu1) bionic; urgency=medium
+
+  * Specify target directory when extracting.
+
+Useful for non-release builds of the driver.
+
+ -- Andy Dick <adick@nvidia.com>  Wed, 11 Apr 2018 11:08:15 -0700
+
+nvidia-graphics-drivers (410.00-0ubuntu1) bionic; urgency=medium
+
+  * Update for 410 packages.
+
+ -- Andy Dick <adick@nvidia.com>  Wed, 11 Apr 2018 11:07:57 -0700
+
+nvidia-graphics-drivers (410.00-0ubuntu1) bionic; urgency=medium
+
+  * Start work on 410
+
+ -- Andy Dick <adick@nvidia.com>  Tue, 27 Mar 2018 15:47:53 -0700
+
+nvidia-graphics-drivers (396.00-0ubuntu1) bionic; urgency=medium
+
+  * Zeroing out old layout, but keeping history.
+
+ -- Andy Dick <adick@nvidia.com>  Tue, 27 Mar 2018 15:23:39 -0700
