@@ -1,5 +1,356 @@
-nvidia-graphics-drivers-396 (396.01-0ubuntu5) bionic; urgency=medium
+nvidia-graphics-drivers (460.00-0ubuntu1) xenial; urgency=medium
 
-  Start work on 396
+  * Re-align contents after applying mailbox patches
 
- -- Alberto Milone <alberto.milone@canonical.com>  Wed, 24 Jan 2018 11:56:33 -0800
+ -- Kevin Mittman <kmittman@nvidia.com>  Mon, 1 Mar 2021 07:53:52 -0800
+
+nvidia-graphics-drivers (450.00-0ubuntu1) xenial; urgency=medium
+
+  * Add libnvidia-ngx
+
+ -- Andy Dick <adick@nvidia.com>  Wed, 26 Feb 2020 15:14:38 -0800
+
+nvidia-graphics-drivers (450.00-0ubuntu1) xenial; urgency=medium
+
+  * libnvidia-fatbinaryloader is no more in 450
+
+ -- Andy Dick <adick@nvidia.com>  Wed, 26 Feb 2020 14:12:28 -0800
+
+nvidia-graphics-drivers (440.00-0ubuntu1) xenial; urgency=medium
+
+  * Remove libGL.la
+
+ -- Andy Dick <adick@nvidia.com>  Thu, 21 Nov 2019 12:08:58 -0800
+
+nvidia-graphics-drivers (440.00-0ubuntu1) xenial; urgency=medium
+
+  * Add libnvidia-allocator.so
+
+ -- Andy Dick <adick@nvidia.com>  Thu, 14 Nov 2019 15:39:30 -0800
+
+nvidia-graphics-drivers (421.00-0ubuntu1) xenial; urgency=medium
+
+  * Use libs within 32/ directory when looking for i386 libs when available.
+
+This allows us to use x86_64 runfiles as input for both the x86_64 and i386 components of legacy driver packaging.
+
+ -- Andy Dick <adick@nvidia.com>  Thu, 17 Oct 2019 12:00:22 -0700
+
+nvidia-graphics-drivers (421.00-0ubuntu1) xenial; urgency=medium
+
+  * Switch to GLVND libGL
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Thu, 5 Sep 2019 09:50:47 -0700
+
+nvidia-graphics-drivers (421.00-0ubuntu1) xenial; urgency=medium
+
+  * Use nvidia_icd.json directly
+
+ -- Kevin Mittman <kmittman@nvidia.com>  Wed, 21 Aug 2019 17:59:33 -0700
+
+nvidia-graphics-drivers (421.00-0ubuntu1) xenial; urgency=medium
+
+  * Install nvidia-drm-outputclass.conf as 10-nvidia.conf in proper xorg.conf.d directory.
+
+ -- Andy Dick <adick@nvidia.com>  Wed, 10 Jul 2019 13:10:19 -0700
+
+nvidia-graphics-drivers (415.00-0ubuntu1) xenial; urgency=medium
+
+  * Also bring back in 32-bit tls library.
+
+ -- Andy Dick <adick@nvidia.com>  Thu, 6 Dec 2018 16:08:53 -0800
+
+nvidia-graphics-drivers (415.00-0ubuntu1) xenial; urgency=medium
+
+  * Only put the tls library in the tls directory
+
+ -- Andy Dick <adick@nvidia.com>  Thu, 6 Dec 2018 11:46:27 -0800
+
+nvidia-graphics-drivers (415.00-0ubuntu1) xenial; urgency=medium
+
+  * Fix typo in nvoptix symlink
+
+ -- Andy Dick <adick@nvidia.com>  Mon, 3 Dec 2018 15:24:42 -0800
+
+nvidia-graphics-drivers (415.00-0ubuntu1) xenial; urgency=medium
+
+  * Rename libnvidia-of.so to libnvidia-opticalflow.so
+
+ -- Kevin Mittman <kmittman@nvidia.com>  Tue, 27 Nov 2018 14:18:02 -0800
+
+nvidia-graphics-drivers (415.00-0ubuntu1) xenial; urgency=medium
+
+  * Add optical flow library libnvidia-of.so
+
+ -- Kevin Mittman <kmittman@nvidia.com>  Mon, 26 Nov 2018 16:16:41 -0800
+
+nvidia-graphics-drivers (415.00-0ubuntu1) xenial; urgency=medium
+
+  * Add libnvcuvid and libnvidia-encode to ppc64el
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Fri, 14 Sep 2018 15:02:11 -0700
+
+nvidia-graphics-drivers (415.00-0ubuntu1) xenial; urgency=medium
+
+  * Make libnvidia-egl.so wildcard greedy
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Wed, 12 Sep 2018 17:00:16 -0700
+
+nvidia-graphics-drivers (415.00-0ubuntu1) xenial; urgency=medium
+
+  * Moved files out of tls directory
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Wed, 12 Sep 2018 15:39:52 -0700
+
+nvidia-graphics-drivers (410.00-0ubuntu1) xenial; urgency=medium
+
+  * Run nvidia-persistenced.service as root
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Wed, 8 Aug 2018 10:58:40 -0700
+
+nvidia-graphics-drivers (410.00-0ubuntu1) xenial; urgency=medium
+
+  * Increase nvidia-persistenced.service timeout to 300s
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Wed, 8 Aug 2018 10:57:32 -0700
+
+nvidia-graphics-drivers (410.00-0ubuntu1) xenial; urgency=medium
+
+  * Add libnvoptix
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Mon, 23 Jul 2018 14:35:34 -0700
+
+nvidia-graphics-drivers (410.00-0ubuntu1) xenial; urgency=medium
+
+  * Remove generated files
+
+ -- Andy Dick <adick@nvidia.com>  Thu, 26 Apr 2018 14:56:09 -0700
+
+nvidia-graphics-drivers (410.00-0ubuntu1) xenial; urgency=medium
+
+  * Switch to libglxserver_nvidia.so.
+
+ -- Andy Dick <adick@nvidia.com>  Wed, 25 Apr 2018 15:29:51 -0700
+
+nvidia-graphics-drivers (410.00-0ubuntu1) xenial; urgency=medium
+
+  * Don't package gl*.h with the driver packages to keep consistency with other distro packages.
+
+ -- Andy Dick <adick@nvidia.com>  Wed, 25 Apr 2018 14:49:52 -0700
+
+nvidia-graphics-drivers (410.00-0ubuntu1) xenial; urgency=medium
+
+  * Update filenames and symlinks for libGLES and remove new GL/EGL libs that we're not using.
+
+ -- Andy Dick <adick@nvidia.com>  Mon, 12 Feb 2018 15:55:48 -0800
+
+nvidia-graphics-drivers (396.00-0ubuntu1) xenial; urgency=medium
+
+  * Create nvidia_icd.json from runfile template
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Wed, 24 Jan 2018 13:14:56 -0800
+
+nvidia-graphics-drivers (396.00-0ubuntu1) xenial; urgency=medium
+
+  * Start work on 396
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Wed, 24 Jan 2018 11:58:33 -0800
+
+nvidia-graphics-drivers (390.00-0ubuntu1) xenial; urgency=medium
+
+  * Use non-GLVND EGL installation to line up with rest of package
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Thu, 18 Jan 2018 11:32:44 -0800
+
+nvidia-graphics-drivers (390.00-0ubuntu1) xenial; urgency=medium
+
+  * Use up-to-date LICENSE from the runfile instead of debian/template
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Fri, 12 Jan 2018 16:46:18 -0800
+
+nvidia-graphics-drivers (390.00-0ubuntu1) xenial; urgency=medium
+
+  * Disable 4.14 patch.
+
+ -- Andy Dick <adick@nvidia.com>  Tue, 9 Jan 2018 17:07:18 -0800
+
+nvidia-graphics-drivers (390.00-0ubuntu1) xenial; urgency=medium
+
+  * Removed duplicate logic for creating nvidia_icd.json.
+    - Generate it only for x86_64
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Mon, 18 Dec 2017 15:00:39 -0800
+
+nvidia-graphics-drivers (390.00-0ubuntu1) xenial; urgency=medium
+
+  * Add missing comma in control template
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Mon, 11 Dec 2017 14:33:36 -0800
+
+nvidia-graphics-drivers (390.00-0ubuntu1) xenial; urgency=medium
+
+  * debian/rules:
+    - replace DEB_BUILD_ARCH with DEB_HOST_ARCH
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Fri, 8 Dec 2017 17:08:27 -0800
+
+nvidia-graphics-drivers (390.00-0ubuntu1) xenial; urgency=medium
+
+  * Add libGLX_indirect symlink under /usr/lib/x86_64-linux-gnu for ssh workaround
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Mon, 18 Sep 2017 11:07:35 -0700
+
+nvidia-graphics-drivers (387.00-0ubuntu1) xenial; urgency=medium
+
+  * Add Provides/Conflicts/Replaces to Ubuntu diagnostic package
+
+ -- Kevin Mittman <kmittman@nvidia.com>  Thu, 27 Jul 2017 16:03:32 -0700
+
+nvidia-graphics-drivers (387.00-0ubuntu1) xenial; urgency=medium
+
+  * Don't include nvidia_icd.json on ppc
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Thu, 22 Jun 2017 10:02:47 -0700
+
+nvidia-graphics-drivers (387.00-0ubuntu1) trusty; urgency=medium
+
+  * Remove xserver-xorg-legacy dependency for Ubuntu 14.04
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Tue, 23 May 2017 11:45:44 -0700
+
+nvidia-graphics-drivers (387.00-0ubuntu1) trusty; urgency=medium
+
+  * Remove glless alternative now that we install GL for P8
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Thu, 13 Apr 2017 16:33:30 -0700
+
+nvidia-graphics-drivers (384.00-0ubuntu1) trusty; urgency=medium
+
+  * Add ptxjitcompiler symlinks
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Thu, 13 Apr 2017 16:24:00 -0700
+
+nvidia-graphics-drivers (384.00-0ubuntu1) trusty; urgency=medium
+
+  * Update to 384
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Mon, 27 Feb 2017 15:45:41 -0800
+
+nvidia-graphics-drivers (384.00-0ubuntu1) trusty; urgency=medium
+
+  * Add OGL support for p8
+
+ -- Alex Dibbley <adibbley@nvidia.com>  Wed, 8 Feb 2017 16:10:29 -0800
+
+nvidia-graphics-drivers (384.00-0ubuntu1) trusty; urgency=medium
+
+  * Correct EGL libraries and glvnd loader script.
+    - libEGL.so.XXX.YY is the old EGL interface. If it's present, libEGL.so
+      and libEGL.so.1 should both link to libEGL.so.XXX.YY.
+    - libEGL.so.1 is the new EGL interface, and only requires libEGL.so to
+      link to it.
+    - This commit removes libEGL.so.XXX.YY from the package. It also correctly
+      includes 10_nvidia.json at /usr/share/glvnd/egl_vendor.d so that the EGL
+      loader is aware of the NV-provided EGL vendor library.
+
+ -- Andy Dick <adick@nvidia.com>  Fri, 21 Oct 2016 15:53:26 -0700
+
+nvidia-graphics-drivers (384.00-0ubuntu1) trusty; urgency=medium
+
+  * Add fatbinaryloader lib hint to shlibs
+
+ -- Andy Dick <adick@nvidia.com>  Fri, 3 Jun 2016 16:26:18 -0700
+
+nvidia-graphics-drivers (375.00-0ubuntu1) trusty; urgency=medium
+
+  * Install 32-bit libOpenGL libs
+
+ -- Andy Dick <adick@nvidia.com>  Wed, 4 May 2016 14:56:48 -0700
+
+nvidia-graphics-drivers (375.00-0ubuntu1) trusty; urgency=medium
+
+  * Add support for diagnostic utilities from NVIDIA Driver packages
+
+ -- Andy Dick <adick@nvidia.com>  Tue, 30 Jun 2015 16:54:02 -0700
+
+nvidia-graphics-drivers (319.00-0ubuntu1) precise; urgency=medium
+
+  * Add nvidia-current to provides/conflicts/replaces logic
+    - This hints to apt that nvidia-331 fully replaces nvidia-current and should
+      be removed when installing nvidia-331. Without this, nvidia-current and
+      nvidia-331 could be installed at the same time.
+
+ -- Andy Dick <adick@nvidia.com>  Tue, 15 Apr 2014 17:17:01 -0700
+
+nvidia-graphics-drivers (319.00-0ubuntu1) precise; urgency=medium
+
+  * Add ARM build capabilities
+
+ -- Andy Dick <adick@nvidia.com>  Tue, 15 Apr 2014 11:29:46 -0700
+
+nvidia-graphics-drivers (319.00-0ubuntu1) precise; urgency=medium
+
+    * Add alternate-install-present file
+      - Reviewed-by: Daniel Dadap <ddadap@nvidia.com>
+      - Tested-by: Andy Dick <adick@nvidia.com>
+
+ -- Andy Dick <adick@nvidia.com>  Mon, 14 Apr 2014 17:33:27 -0700
+
+nvidia-graphics-drivers (319.00-0ubuntu1) precise; urgency=medium
+
+  * Blacklist nvidia-current
+   - nvidia-current.ko is improperly loaded on some configurations. It should
+     be blacklisted to ensure the machine can boot after upgrading the driver.
+
+ -- Andy Dick <adick@nvidia.com>  Wed, 4 Dec 2013 11:37:34 -0800
+
+nvidia-graphics-drivers (319.00-0ubuntu1) precise; urgency=medium
+
+  * Split dirs helper file into dirs and dirs32.
+    - Prevents unnecessary directories in x86 driver packages.
+
+ -- Andy Dick <adick@nvidia.com>  Wed, 18 Sep 2013 15:25:38 -0700
+
+nvidia-graphics-drivers (311.00-0ubuntu1) precise; urgency=medium
+
+  * Add libcuda.so symlinks in /usr/lib*
+
+ -- Andy Dick <adick@nvidia.com>  Mon, 5 Aug 2013 18:45:05 -0700
+
+nvidia-graphics-drivers (311.00-0ubuntu1) precise; urgency=medium
+
+  * Conditionalize the copying of Makefile.kbuild to Makefile
+    - This adds support for newer drivers, while maintaining support for packaging older drivers.
+
+ -- Andy Dick <adick@nvidia.com>  Tue, 23 Jul 2013 13:56:21 -0700
+
+nvidia-graphics-drivers (311.00-0ubuntu1) precise; urgency=medium
+
+  * Avoid extracting unnecessary .run files
+    - The 64-bit package needs both the 32- and 64-bit .run files, but the 32-bit package does not.
+      Change the unpackaging rules to unpack only the native package by default, and only unpack the 32-bit x86 package on amd64.
+    - Also, instead of changing the .run file permissions to ensure that the .run file is executable, just call it as an argument to sh.
+
+ -- Andy Dick <adick@nvidia.com>  Tue, 23 Jul 2013 13:54:49 -0700
+
+nvidia-graphics-drivers (311.00-0ubuntu1) precise; urgency=medium
+
+  * Don't assume that extracted files are writable
+    - The package contents extracted from some .run file installers may not have write permissions enabled.
+    - To work around this, move files instead of copying them to a temporary location before running sed scripts, and add force flags to applicable commands.
+
+ -- Andy Dick <adick@nvidia.com>  Tue, 23 Jul 2013 13:52:05 -0700
+
+nvidia-graphics-drivers (311.00-0ubuntu1) precise; urgency=medium
+
+  * Attempt uninstallation of any existing .run file installation before installing Debian-packaged driver
+
+ -- Andy Dick <adick@nvidia.com>  Tue, 23 Jul 2013 12:33:14 -0700
+
+nvidia-graphics-drivers (311.00-0ubuntu1) precise; urgency=medium
+
+  * Print message advising users to reboot and giving instructions on how to re-enable nouveau if necessary
+    - Reviewed-by: Daniel Dadap <ddadap@nvidia.com>
+    - Tested-by: Andy Dick <adick@nvidia.com>
+
+ -- Andy Dick <adick@nvidia.com>  Tue, 23 Jul 2013 12:31:58 -0700
