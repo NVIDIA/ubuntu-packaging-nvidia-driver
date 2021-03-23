@@ -20,6 +20,9 @@ The `main` branch contains this README. The `control` and `.install` files can b
 - [Related](#Related)
   * [NVIDIA modprobe](#NVIDIA-modprobe)
   * [NVIDIA settings](#NVIDIA-settings)
+- [See also](#See-also)
+  * [RHEL driver](#RHEL-driver)
+  * [SUSE driver](#SUSE-driver)
 - [Contributing](#Contributing)
 
 
@@ -113,6 +116,20 @@ apt-get install debhelper devscripts dpkg-dev
 
 - nvidia-settings
   * [https://github.com/NVIDIA/ubuntu-packaging-nvidia-settings](https://github.com/NVIDIA/ubuntu-packaging-nvidia-settings)
+
+
+## See also
+
+- nvidia-graphics-drivers
+  * [https://github.com/tseliot/nvidia-graphics-drivers](https://github.com/tseliot/nvidia-graphics-drivers)
+
+### RHEL driver
+
+  * [https://github.com/NVIDIA/yum-packaging-nvidia-driver](https://github.com/NVIDIA/yum-packaging-nvidia-driver)
+
+### SUSE driver
+
+  * [https://github.com/NVIDIA/zypper-packaging-nvidia-driver](https://github.com/NVIDIA/zypper-packaging-nvidia-driver)
 
 
 ## Contributing
